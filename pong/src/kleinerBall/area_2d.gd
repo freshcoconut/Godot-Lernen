@@ -15,6 +15,16 @@ func _process(delta: float) -> void:
 func reset_ball():
 	if vec.x > 0:
 		PunkteBerechnen.Punkt1 = PunkteBerechnen.Punkt1 + 1
+		vec.x = 3
+		if vec.y > 0:
+			vec.y = 3
+		else:
+			vec.y = -3
 	else:
 		PunkteBerechnen.Punkt2 = PunkteBerechnen.Punkt2 + 1
+		vec.x = -3
+		if vec.y > 0:
+			vec.y = 3
+		else:
+			vec.y = -3
 	position = init_position
