@@ -1,11 +1,15 @@
-[gd_scene load_steps=10 format=3 uid="uid://b22mfk0pwevde"]
+[gd_scene load_steps=14 format=3 uid="uid://b22mfk0pwevde"]
 
 [ext_resource type="Texture2D" uid="uid://bigxjueh4k02c" path="res://pic/arrow.png" id="1_pkjhe"]
 [ext_resource type="Script" uid="uid://cf85c8qjcqaou" path="res://Karte/area_2d.gd" id="2_fvwo7"]
 [ext_resource type="PackedScene" uid="uid://ca1vdrxwpsxip" path="res://kleinerBall/area_2d.tscn" id="2_loh32"]
+[ext_resource type="AudioStream" uid="uid://brlu2gh3nocs6" path="res://music/x-deepin-app-sent-to-desktop.wav" id="3_7lau1"]
 [ext_resource type="Script" uid="uid://cmbyxr774hcx6" path="res://Karte/area_2d_4.gd" id="4_ejym5"]
+[ext_resource type="Script" uid="uid://cjxrd2qft2jg4" path="res://Karte/area_2d_2.gd" id="4_ynoh6"]
+[ext_resource type="AudioStream" uid="uid://iguqgaof31fn" path="res://music/device-removed.wav" id="5_3k0wb"]
 [ext_resource type="PackedScene" uid="uid://blxhm253uc4q6" path="res://Punkte_Szene/node.tscn" id="5_57dr1"]
 [ext_resource type="PackedScene" uid="uid://c31ne4i0m0b6k" path="res://Spieler/Spieler1/area_2d.tscn" id="6_eoe0b"]
+[ext_resource type="Script" uid="uid://dor8eivu2ftd8" path="res://Karte/area_2d_5.gd" id="6_vx11u"]
 [ext_resource type="PackedScene" uid="uid://buolh2dgjmqyv" path="res://Spieler/Spieler2/area_2d.tscn" id="7_18u8j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pkjhe"]
@@ -37,16 +41,22 @@ rotation = -3.14159
 scale = Vector2(0.484255, -11.0407)
 shape = SubResource("RectangleShape2D_pkjhe")
 
+[node name="sound" type="AudioStreamPlayer2D" parent="Area2D"]
+stream = ExtResource("3_7lau1")
+
 [node name="Area2D2" type="Area2D" parent="."]
 position = Vector2(1144, 0)
 scale = Vector2(1.20149, 1.54435)
-script = ExtResource("2_fvwo7")
+script = ExtResource("4_ynoh6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
 position = Vector2(1.58748e-06, 209.797)
 rotation = -3.14159
 scale = Vector2(0.484255, -11.0407)
 shape = SubResource("RectangleShape2D_pkjhe")
+
+[node name="sound" type="AudioStreamPlayer2D" parent="Area2D2"]
+stream = ExtResource("3_7lau1")
 
 [node name="Area2D3" parent="." instance=ExtResource("2_loh32")]
 position = Vector2(576, 320)
@@ -58,14 +68,19 @@ script = ExtResource("4_ejym5")
 position = Vector2(571, 0)
 shape = SubResource("RectangleShape2D_fvwo7")
 
+[node name="sound" type="AudioStreamPlayer2D" parent="Area2D4"]
+stream = ExtResource("5_3k0wb")
+
 [node name="Area2D5" type="Area2D" parent="."]
 position = Vector2(0, 648)
-script = ExtResource("4_ejym5")
-y = -5
+script = ExtResource("6_vx11u")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D5"]
 position = Vector2(571, 0)
 shape = SubResource("RectangleShape2D_fvwo7")
+
+[node name="sound" type="AudioStreamPlayer2D" parent="Area2D5"]
+stream = ExtResource("5_3k0wb")
 
 [node name="Node" parent="." instance=ExtResource("5_57dr1")]
 
