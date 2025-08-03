@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6hd0lpa5lll6"]
+
+[ext_resource type="Texture2D" uid="uid://cpq168tytwjdd" path="res://pic/Tree-Assets.png" id="1_okr1q"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bkbdo"]
+texture = ExtResource("1_okr1q")
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:2/0 = 0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_hi6h5"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_bkbdo")
+
+[node name="World" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_hi6h5")
+format = 2
