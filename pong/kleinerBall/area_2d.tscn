@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://ca1vdrxwpsxip"]
+
+[ext_resource type="Texture2D" uid="uid://bnul856t1fxnw" path="res://pic/barrel.png" id="1_rdisn"]
+[ext_resource type="Script" uid="uid://btkldgs25rlky" path="res://kleinerBall/area_2d.gd" id="1_uloa4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nsakb"]
+
+[node name="Area2D" type="Area2D"]
+script = ExtResource("1_uloa4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nsakb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.306641, 0.306641)
+texture = ExtResource("1_rdisn")

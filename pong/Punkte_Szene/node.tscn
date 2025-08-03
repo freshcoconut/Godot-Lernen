@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://blxhm253uc4q6"]
+
+[ext_resource type="Script" uid="uid://doi8qdiamtdc5" path="res://Punkte_Szene/label.gd" id="1_c2456"]
+[ext_resource type="Script" uid="uid://d2traxno2q7iq" path="res://Punkte_Szene/label_2.gd" id="2_q66hx"]
+
+[node name="Node" type="Node"]
+metadata/_edit_vertical_guides_ = [252.0]
+metadata/_edit_horizontal_guides_ = [167.0]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 184.0
+offset_top = 136.0
+offset_right = 321.0
+offset_bottom = 203.0
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+script = ExtResource("1_c2456")
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 832.0
+offset_top = 136.0
+offset_right = 969.0
+offset_bottom = 203.0
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+script = ExtResource("2_q66hx")
+
+[node name="Label3" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -408.0
+offset_right = 460.0
+offset_bottom = 34.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.476562, 0.476562, 0.476562, 1)
+theme_override_font_sizes/font_size = 24
+text = "Player 1 (left): W (up); S (down) ------- Player 2 (right): UP (up); DOWN (down)"
+horizontal_alignment = 1
