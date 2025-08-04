@@ -5,22 +5,28 @@ enum State {
 	RUNNING,
 	JUMP,
 	FALL,
-	LANDING
+	LANDING,
+	WALL_SLIDING,
+	WALL_JUMP,
 }
 
 const Staende_des_Grundes = [State.IDLE, State.RUNNING, State.LANDING]
 const Tempo := 120.0 #200 pixel pro Sekunde
 const Tempo_Springen := -300.0
+const Tempo_Springen_Auf_Wand := Vector2(450, -280)
 const Grund_Beschleunigung := Tempo / 0.2 # 0.2s for acceleration
-const Himmel_Beschleunigung := Tempo / 0.02 # 0.02s for acceleration
+const Himmel_Beschleunigung := Tempo / 0.1 # 0.02s for acceleration
 
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
 var is_first_tick := false
 
-@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var grafiken: Node2D = $Grafiken
+@onready var hand_pruefer: RayCast2D = $Grafiken/HandPruefer
+@onready var fuss_pruefer: RayCast2D = $Grafiken/FussPruefer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var coyote_timer: Timer = $CoyoteTimer
 @onready var jump_request_timer: Timer = $JumpRequestTimer
+@onready var maschine_des_standes: Maschine_des_Standes = $Maschine_des_Standes
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("springen"):
@@ -42,7 +48,16 @@ func tick_physics(state: State, delta: float) -> void:
 		State.FALL:
 			move(default_gravity, delta)
 		State.LANDING:
-			stand(delta)
+			stand(default_gravity, delta)
+		State.WALL_SLIDING:
+			move(default_gravity / 3, delta)
+			grafiken.scale.x = get_wall_normal().x
+		State.WALL_JUMP:
+			if maschine_des_standes.Zeit_des_Standes < 0.1:
+				stand(0.0 if is_first_tick else default_gravity, delta)
+				grafiken.scale.x = get_wall_normal().x
+			else:
+				move(default_gravity, delta)	
 	
 	is_first_tick = false
 					 
@@ -53,16 +68,19 @@ func move(gravity: float, delta: float) -> void:
 	velocity.y += gravity * delta
 	
 	if ! is_zero_approx(Richtung):
-		sprite_2d.flip_h = Richtung < 0
+		grafiken.scale.x = -1 if Richtung < 0 else 1
 	
 	move_and_slide()
 
-func stand(delta: float) -> void:
+func stand(gravity:float, delta: float) -> void:
 	var Beschleunigung = Grund_Beschleunigung if is_on_floor() else Himmel_Beschleunigung
 	velocity.x = move_toward(velocity.x, 0.0, Beschleunigung * delta)  
-	velocity.y += default_gravity * delta
+	velocity.y += gravity * delta
 	
 	move_and_slide()	
+
+func can_wall_slide() -> bool:
+	return is_on_wall() && hand_pruefer.is_colliding() && fuss_pruefer.is_colliding()
 
 func get_next_state(state: State) -> State:
 	var can_jump := is_on_floor() || coyote_timer.time_left > 0
@@ -88,31 +106,66 @@ func get_next_state(state: State) -> State:
 		State.FALL:
 			if is_on_floor():
 				return State.LANDING if is_still else State.RUNNING
+			if can_wall_slide():
+				return State.WALL_SLIDING
 		State.LANDING:
-			if ! animation_player.is_playing():
+			if ! is_still:
+				return State.RUNNING
+			elif ! animation_player.is_playing():
 				return State.IDLE	
+		State.WALL_SLIDING:
+			if jump_request_timer.time_left > 0 && ! is_first_tick:
+				return State.WALL_JUMP
+			if is_on_floor():
+				return State.IDLE
+			elif ! is_on_wall():
+				return State.FALL
+		State.WALL_JUMP:
+			if can_wall_slide() && ! is_first_tick:
+				return State.WALL_SLIDING
+			if velocity.y >= 0:
+				return State.FALL
+			
 	return state
 	
 func transition_state(von: State, bis: State) -> void:
+	print("[%s] %s => %s" %[
+		Engine.get_physics_frames(),
+		State.keys()[von] if von != -1 else "Start",
+		State.keys()[bis],
+	])
+	
 	if ! von in Staende_des_Grundes && bis in Staende_des_Grundes:
 		coyote_timer.stop()
 		 
 	match bis:
 		State.IDLE:
-			animation_player.play("idle")
+			animation_player.play(&"idle")
 		State.RUNNING:
-			animation_player.play("running")
+			animation_player.play(&"running")
 		State.JUMP:
-			animation_player.play("jump")
+			animation_player.play(&"jump")
 			velocity.y = Tempo_Springen
 			coyote_timer.stop()
 			jump_request_timer.stop()
 		State.FALL:
-			animation_player.play("fall")
+			animation_player.play(&"fall")
 			if von in Staende_des_Grundes:
 				coyote_timer.start()
 		State.LANDING:
-			animation_player.play("landing")
-			
+			animation_player.play(&"landing")
+		State.WALL_SLIDING:
+			animation_player.play(&"wall_sliding")
+		State.WALL_JUMP:
+			animation_player.play(&"jump")
+			velocity = Tempo_Springen_Auf_Wand
+			velocity.x *= get_wall_normal().x
+			jump_request_timer.stop()
+	
+	if bis == State.WALL_JUMP:
+		Engine.time_scale = 0.3
+	if von == State.WALL_JUMP:
+		Engine.time_scale = 1.0
+	
 	is_first_tick = true
 	
