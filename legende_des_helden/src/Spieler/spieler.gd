@@ -59,7 +59,7 @@ func tick_physics(state: State, delta: float) -> void:
 		State.LANDING:
 			stand(default_gravity, delta)
 		State.WALL_SLIDING:
-			move(default_gravity / 4, delta)
+			move(default_gravity / 12, delta)
 			grafiken.scale.x = get_wall_normal().x
 		State.WALL_JUMP:
 			if maschine_des_standes.Zeit_des_Standes < 0.1:
