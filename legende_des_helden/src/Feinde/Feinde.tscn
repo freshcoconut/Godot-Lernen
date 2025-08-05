@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://duqyhyphu0eiv"]
+
+[ext_resource type="Script" uid="uid://d0hj4edvsgh6a" path="res://Feinde/feind.gd" id="1_68dtx"]
+[ext_resource type="Script" uid="uid://boh7md4dsrobb" path="res://Klassen/Maschine_des_Standes.gd" id="2_1uben"]
+
+[node name="Feind" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_68dtx")
+
+[node name="Grafiken" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Grafiken"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Maschine_des_Standes" type="Node" parent="."]
+script = ExtResource("2_1uben")
+metadata/_custom_type_script = "uid://boh7md4dsrobb"

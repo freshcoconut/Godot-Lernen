@@ -1,3 +1,4 @@
+class_name  Spieler
 extends CharacterBody2D
 
 enum State {
@@ -8,17 +9,23 @@ enum State {
 	LANDING,
 	WALL_SLIDING,
 	WALL_JUMP,
+	ATTACK_1,
+	ATTACK_2,
+	ATTACK_3,
 }
 
-const Staende_des_Grundes = [State.IDLE, State.RUNNING, State.LANDING]
+const Staende_des_Grundes = [State.IDLE, State.RUNNING, State.LANDING, State.ATTACK_1, State.ATTACK_2, State.ATTACK_3]
 const Tempo := 120.0 #200 pixel pro Sekunde
 const Tempo_Springen := -300.0
 const Tempo_Springen_Auf_Wand := Vector2(450, -280)
 const Grund_Beschleunigung := Tempo / 0.2 # 0.2s for acceleration
 const Himmel_Beschleunigung := Tempo / 0.1 # 0.02s for acceleration
 
+@export var can_combo = false
+
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
 var is_first_tick := false
+var is_combo_requested := false
 
 @onready var grafiken: Node2D = $Grafiken
 @onready var hand_pruefer: RayCast2D = $Grafiken/HandPruefer
@@ -29,13 +36,15 @@ var is_first_tick := false
 @onready var maschine_des_standes: Maschine_des_Standes = $Maschine_des_Standes
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("springen"):
+	if event.is_action_pressed(&"springen"):
 		jump_request_timer.start()
 	#松开跳跃键,下落过程中y值必然逐渐变大,只要提前松开,那必然触发velo.y<velocity.y/2,那就提前重置velocity.y
-	if event.is_action_released("springen") :
+	if event.is_action_released(&"springen") :
 		jump_request_timer.stop()
 		if velocity.y < Tempo_Springen / 2:
 			velocity.y = Tempo_Springen / 2
+	if event.is_action_pressed(&"Angriff") && can_combo:
+		is_combo_requested = true
 
 func tick_physics(state: State, delta: float) -> void:
 	match state:
@@ -58,6 +67,8 @@ func tick_physics(state: State, delta: float) -> void:
 				grafiken.scale.x = get_wall_normal().x
 			else:
 				move(default_gravity, delta)	
+		State.ATTACK_1, State.ATTACK_2, State.ATTACK_3:
+			stand(default_gravity, delta)
 	
 	is_first_tick = false
 					 
@@ -87,17 +98,21 @@ func get_next_state(state: State) -> State:
 	var should_jump := can_jump && jump_request_timer.time_left > 0
 	if should_jump:
 		return State.JUMP
+	
+	if state in Staende_des_Grundes && ! is_on_floor():
+		return State.FALL
+		
 	var Richtung := Input.get_axis("sich_nach_links_bewegen", "sich_nach_rechts_bewegen")
 	var is_still := is_zero_approx(Richtung) && is_zero_approx(velocity.x)
 	match state:
 		State.IDLE:
-			if !is_on_floor():
-				return State.FALL
+			if Input.is_action_pressed(&"Angriff"):
+				return State.ATTACK_1
 			if !is_still:
 				return State.RUNNING			
 		State.RUNNING:
-			if !is_on_floor():
-				return State.FALL
+			if Input.is_action_pressed(&"Angriff"):
+				return State.ATTACK_1
 			if is_still:
 				return State.IDLE			
 		State.JUMP:
@@ -125,11 +140,20 @@ func get_next_state(state: State) -> State:
 				return State.WALL_SLIDING
 			if velocity.y >= 0:
 				return State.FALL
+		State.ATTACK_1:
+			if ! animation_player.is_playing():
+				return State.ATTACK_2 if is_combo_requested else State.IDLE
+		State.ATTACK_2:
+			if ! animation_player.is_playing():
+				return State.ATTACK_3 if is_combo_requested else State.IDLE
+		State.ATTACK_3:
+			if ! animation_player.is_playing():
+				return State.IDLE
 			
 	return state
 	
 func transition_state(von: State, bis: State) -> void:
-	print("[%s] %s => %s" %[
+	print("[%s] Spieler: %s => %s" %[
 		Engine.get_physics_frames(),
 		State.keys()[von] if von != -1 else "Start",
 		State.keys()[bis],
@@ -161,6 +185,15 @@ func transition_state(von: State, bis: State) -> void:
 			velocity = Tempo_Springen_Auf_Wand
 			velocity.x *= get_wall_normal().x
 			jump_request_timer.stop()
+		State.ATTACK_1:
+			animation_player.play(&"attack_1")
+			is_combo_requested = false
+		State.ATTACK_2:
+			animation_player.play(&"attack_2")
+			is_combo_requested = false
+		State.ATTACK_3:
+			animation_player.play(&"attack_3")
+			is_combo_requested = false
 	
 	if bis == State.WALL_JUMP:
 		Engine.time_scale = 0.3
