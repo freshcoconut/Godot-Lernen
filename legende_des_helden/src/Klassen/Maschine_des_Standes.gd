@@ -1,6 +1,8 @@
 class_name Maschine_des_Standes
 extends Node
 
+const KEEP_CURRENT := -1
+
 var Zeit_des_Standes: float
 
 var heutiger_Stand: int = -1:
@@ -16,7 +18,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	while true:
 		var naechst := owner.get_next_state(heutiger_Stand) as int
-		if heutiger_Stand == naechst:
+		if naechst == KEEP_CURRENT:
 			break
 		heutiger_Stand = naechst
 	#Am Ende ist der Stand staendig

@@ -35,9 +35,9 @@ func tick_physics(state: State, delta: float) -> void:
 			if kann_Spieler_sehen():
 				calm_down_timer.start()
 
-func get_next_state(state: State) -> State:
+func get_next_state(state: State) -> int: #返回类型为int，因为有可能返回-1
 	if statistik.heutige_gesundheit == 0:
-		return State.TOT
+		return Maschine_des_Standes.KEEP_CURRENT if state == State.TOT else State.TOT
 	
 	if pending_damage: #pending_damage > 0
 		return State.HURT
@@ -59,7 +59,7 @@ func get_next_state(state: State) -> State:
 		State.HURT:
 			if ! animation_player.is_playing():
 				return State.RUN
-	return state # unveraendert beleiben, wenn state keine von den drei Staenden auswaehlt
+	return maschine_des_standes.KEEP_CURRENT # unveraendert beleiben, wenn state keine von den drei Staenden auswaehlt
 	
 func transition_state(von: State, bis: State) -> void:
 	print("[%s] Boar: %s => %s" %[
