@@ -99,7 +99,7 @@ func transition_state(von: State, bis: State) -> void:
 			animation_player.play(&"tot")
 				
 func _on_hurt_box_hurt(hitbox: Hit_Box) -> void:
-	print("[%s] Boar: %s! how dare you hurt me!" %[Engine.get_physics_frames(), hitbox.owner.name])
+	print("[%s] Boar: %s! How dare you hurt me!" %[Engine.get_physics_frames(), hitbox.owner.name])
 	pending_damage = Schaden.new()
 	pending_damage.menge = 1
 	pending_damage.quelle = hitbox.owner

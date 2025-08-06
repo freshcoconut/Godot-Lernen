@@ -12,6 +12,8 @@ enum State {
 	ATTACK_1,
 	ATTACK_2,
 	ATTACK_3,
+	HURT,
+	TOT,
 }
 
 const Staende_des_Grundes = [State.IDLE, State.RUNNING, State.LANDING, State.ATTACK_1, State.ATTACK_2, State.ATTACK_3]
@@ -20,12 +22,14 @@ const Tempo_Springen := -300.0
 const Tempo_Springen_Auf_Wand := Vector2(450, -280)
 const Grund_Beschleunigung := Tempo / 0.2 # 0.2s for acceleration
 const Himmel_Beschleunigung := Tempo / 0.1 # 0.02s for acceleration
+const KNOCKBACK_AMOUNT := 512.0
 
 @export var can_combo = false
 
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
 var is_first_tick := false
 var is_combo_requested := false
+var pending_damage: Schaden
 
 @onready var grafiken: Node2D = $Grafiken
 @onready var hand_pruefer: RayCast2D = $Grafiken/HandPruefer
@@ -34,6 +38,7 @@ var is_combo_requested := false
 @onready var coyote_timer: Timer = $CoyoteTimer
 @onready var jump_request_timer: Timer = $JumpRequestTimer
 @onready var maschine_des_standes: Maschine_des_Standes = $Maschine_des_Standes
+@onready var statistik: Statistik = $Statistik
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"springen"):
@@ -69,6 +74,8 @@ func tick_physics(state: State, delta: float) -> void:
 				move(default_gravity, delta)	
 		State.ATTACK_1, State.ATTACK_2, State.ATTACK_3:
 			stand(default_gravity, delta)
+		State.HURT, State.TOT:
+			stand(default_gravity, delta)
 	
 	is_first_tick = false
 					 
@@ -90,10 +97,20 @@ func stand(gravity:float, delta: float) -> void:
 	
 	move_and_slide()	
 
+func tot() -> void:
+	get_tree().reload_current_scene()
+	print("[%s] Spieler: I am back!" %[Engine.get_physics_frames()])	
+
 func can_wall_slide() -> bool:
 	return is_on_wall() && hand_pruefer.is_colliding() && fuss_pruefer.is_colliding()
 
-func get_next_state(state: State) -> int:#返回类型为int，因为有可能返回-1
+func get_next_state(state: State) -> int: #返回类型为int，因为有可能返回-1
+	if statistik.heutige_gesundheit == 0:
+		return Maschine_des_Standes.KEEP_CURRENT if state == State.TOT else State.TOT
+	
+	if pending_damage: #pending_damage > 0
+		return State.HURT
+		
 	var can_jump := is_on_floor() || coyote_timer.time_left > 0
 	var should_jump := can_jump && jump_request_timer.time_left > 0
 	if should_jump:
@@ -149,6 +166,9 @@ func get_next_state(state: State) -> int:#返回类型为int，因为有可能�
 		State.ATTACK_3:
 			if ! animation_player.is_playing():
 				return State.IDLE
+		State.HURT:
+			if ! animation_player.is_playing():
+				return State.IDLE
 			
 	return Maschine_des_Standes.KEEP_CURRENT
 	
@@ -194,6 +214,20 @@ func transition_state(von: State, bis: State) -> void:
 		State.ATTACK_3:
 			animation_player.play(&"attack_3")
 			is_combo_requested = false
+		State.HURT:
+			animation_player.play(&"hurt")
+			
+			#Die Gesundheit wird verringert.
+			statistik.heutige_gesundheit -= pending_damage.menge
+			
+			#被击退
+			var dir := pending_damage.quelle.global_position.direction_to(self.global_position)
+			self.velocity = dir * KNOCKBACK_AMOUNT
+				
+			pending_damage = null
+		State.TOT:
+			print("[%s] Spieler: I will be back!" %[Engine.get_physics_frames()])
+			animation_player.play(&"tot")
 	
 	if bis == State.WALL_JUMP:
 		Engine.time_scale = 0.3
@@ -202,3 +236,10 @@ func transition_state(von: State, bis: State) -> void:
 	
 	is_first_tick = true
 	
+func _on_hurt_box_hurt(hitbox: Hit_Box) -> void:
+	print("[%s] Spieler: %s! You make me bleed!" %[Engine.get_physics_frames(), hitbox.owner.name])
+	pending_damage = Schaden.new()
+	pending_damage.menge = 1
+	pending_damage.quelle = hitbox.owner
+	if statistik.heutige_gesundheit == 0:
+		queue_free()
