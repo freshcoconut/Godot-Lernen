@@ -2,7 +2,7 @@ extends HBoxContainer
 
 @export var statistik: Statistik
 
-@onready var gesundheitanzeige: TextureProgressBar = $Gesundheitanzeige
+@onready var gesundheitstab: TextureProgressBar = $Gesundheitstab
 @onready var geloeschter_gesundheitstab: TextureProgressBar = $Gesundheitstab/Geloeschter_Gesundheitstab
 
 func _ready() -> void:
@@ -11,4 +11,6 @@ func _ready() -> void:
 
 func aktualisieren_Gesundheit() -> void:
 	var prozent := statistik.heutige_gesundheit / float(statistik.max_Gesundheit)
-	gesundheitanzeige.value = prozent
+	gesundheitstab.value = prozent
+	
+	create_tween().tween_property(geloeschter_gesundheitstab, ^"value", prozent, 0.3)

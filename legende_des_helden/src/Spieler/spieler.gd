@@ -14,15 +14,20 @@ enum State {
 	ATTACK_3,
 	HURT,
 	TOT,
+	SLIDING_START,
+	SLIDING_LOOP,
+	SLIDING_END,
 }
 
 const Staende_des_Grundes = [State.IDLE, State.RUNNING, State.LANDING, State.ATTACK_1, State.ATTACK_2, State.ATTACK_3]
-const Tempo := 120.0 #200 pixel pro Sekunde
+const Tempo := 120.0 #120 pixel pro Sekunde
 const Tempo_Springen := -300.0
 const Tempo_Springen_Auf_Wand := Vector2(450, -280)
 const Grund_Beschleunigung := Tempo / 0.2 # 0.2s for acceleration
 const Himmel_Beschleunigung := Tempo / 0.1 # 0.02s for acceleration
 const KNOCKBACK_AMOUNT := 512.0
+const SLIDING_DURATION := 0.3
+const SLIDING_SPEED := 240.0
 
 @export var can_combo = false
 
@@ -82,6 +87,10 @@ func tick_physics(state: State, delta: float) -> void:
 			stand(default_gravity, delta)
 		State.HURT, State.TOT:
 			stand(default_gravity, delta)
+		State.SLIDING_END:
+			stand(default_gravity, delta)
+		State.SLIDING_START, State.SLIDING_LOOP:
+			slide(delta)
 	
 	is_first_tick = false
 					 
@@ -103,12 +112,23 @@ func stand(gravity:float, delta: float) -> void:
 	
 	move_and_slide()	
 
+func slide(delta: float) -> void:
+	velocity.x = grafiken.scale.x * SLIDING_SPEED
+	velocity.y += default_gravity * delta
+	
+	move_and_slide()
+
 func tot() -> void:
 	get_tree().reload_current_scene()
 	print("[%s] Spieler: I am back!" %[Engine.get_physics_frames()])	
 
 func can_wall_slide() -> bool:
 	return is_on_wall() && hand_pruefer.is_colliding() && fuss_pruefer.is_colliding()
+	
+func should_slide() -> bool:
+	if ! Input.is_action_just_pressed(&"slide"): #just: 只按一下
+		return false
+	return ! fuss_pruefer.is_colliding()
 
 func get_next_state(state: State) -> int: #返回类型为int，因为有可能返回-1
 	if statistik.heutige_gesundheit == 0:
@@ -131,11 +151,15 @@ func get_next_state(state: State) -> int: #返回类型为int，因为有可能�
 		State.IDLE:
 			if Input.is_action_pressed(&"Angriff"):
 				return State.ATTACK_1
+			if should_slide():
+				return State.SLIDING_START
 			if !is_still:
 				return State.RUNNING			
 		State.RUNNING:
 			if Input.is_action_pressed(&"Angriff"):
 				return State.ATTACK_1
+			if should_slide():
+				return State.SLIDING_START
 			if is_still:
 				return State.IDLE			
 		State.JUMP:
@@ -173,6 +197,15 @@ func get_next_state(state: State) -> int: #返回类型为int，因为有可能�
 			if ! animation_player.is_playing():
 				return State.IDLE
 		State.HURT:
+			if ! animation_player.is_playing():
+				return State.IDLE
+		State.SLIDING_START:
+			if ! animation_player.is_playing():
+				return State.SLIDING_LOOP
+		State.SLIDING_LOOP:
+			if maschine_des_standes.Zeit_des_Standes > SLIDING_DURATION || is_on_wall():
+				return State.SLIDING_END
+		State.SLIDING_END:
 			if ! animation_player.is_playing():
 				return State.IDLE
 			
@@ -236,6 +269,12 @@ func transition_state(von: State, bis: State) -> void:
 			print("[%s] Spieler: I will be back!" %[Engine.get_physics_frames()])
 			unschlagbar_timer.stop()
 			animation_player.play(&"tot")
+		State.SLIDING_START:
+			animation_player.play(&"sliding_start")
+		State.SLIDING_LOOP:
+			animation_player.play(&"sliding_loop")
+		State.SLIDING_END:
+			animation_player.play(&"sliding_end")
 	
 	if bis == State.WALL_JUMP:
 		Engine.time_scale = 0.3
