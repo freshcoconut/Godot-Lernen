@@ -39,6 +39,7 @@ var pending_damage: Schaden
 @onready var jump_request_timer: Timer = $JumpRequestTimer
 @onready var maschine_des_standes: Maschine_des_Standes = $Maschine_des_Standes
 @onready var statistik: Statistik = $Statistik
+@onready var unschlagbar_timer: Timer = $UnschlagbarTimer
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"springen"):
@@ -52,6 +53,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		is_combo_requested = true
 
 func tick_physics(state: State, delta: float) -> void:
+	if unschlagbar_timer.time_left > 0:
+		grafiken.modulate.a = sin(Time.get_ticks_msec() / 20) * 0.5 + 0.5
+	else:
+		grafiken.modulate.a = 1
+		
 	match state:
 		State.IDLE:
 			move(default_gravity, delta)
@@ -225,8 +231,10 @@ func transition_state(von: State, bis: State) -> void:
 			self.velocity = dir * KNOCKBACK_AMOUNT
 				
 			pending_damage = null
+			unschlagbar_timer.start()
 		State.TOT:
 			print("[%s] Spieler: I will be back!" %[Engine.get_physics_frames()])
+			unschlagbar_timer.stop()
 			animation_player.play(&"tot")
 	
 	if bis == State.WALL_JUMP:
@@ -237,6 +245,9 @@ func transition_state(von: State, bis: State) -> void:
 	is_first_tick = true
 	
 func _on_hurt_box_hurt(hitbox: Hit_Box) -> void:
+	if unschlagbar_timer.time_left > 0:
+		return;
+		
 	print("[%s] Spieler: %s! You make me bleed!" %[Engine.get_physics_frames(), hitbox.owner.name])
 	pending_damage = Schaden.new()
 	pending_damage.menge = 1
