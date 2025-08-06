@@ -102,6 +102,6 @@ func _on_hurt_box_hurt(hitbox: Hit_Box) -> void:
 	print("[%s] Boar: %s! how dare you hurt me!" %[Engine.get_physics_frames(), hitbox.owner.name])
 	pending_damage = Schaden.new()
 	pending_damage.menge = 1
-	pending_damage.quelle = hitbox.ownerd
+	pending_damage.quelle = hitbox.owner
 	if statistik.heutige_gesundheit == 0:
 		queue_free()

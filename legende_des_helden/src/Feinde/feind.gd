@@ -28,3 +28,6 @@ func move(tempo: float, delta: float) -> void:
 	velocity.x = move_toward(velocity.x, tempo * richtung, beschleunigung * delta)  
 	velocity.y += default_gravity * delta
 	move_and_slide()
+	
+func tot() -> void:
+	queue_free()
