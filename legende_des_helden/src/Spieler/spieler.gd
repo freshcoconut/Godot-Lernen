@@ -45,6 +45,7 @@ var pending_damage: Schaden
 @onready var maschine_des_standes: Maschine_des_Standes = $Maschine_des_Standes
 @onready var statistik: Statistik = $Statistik
 @onready var unschlagbar_timer: Timer = $UnschlagbarTimer
+@onready var slide_request_timer: Timer = $SlideRequestTimer
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"springen"):
@@ -56,6 +57,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			velocity.y = Tempo_Springen / 2
 	if event.is_action_pressed(&"Angriff") && can_combo:
 		is_combo_requested = true
+	if event.is_action_pressed(&"slide"):
+		slide_request_timer.start()
 
 func tick_physics(state: State, delta: float) -> void:
 	if unschlagbar_timer.time_left > 0:
@@ -126,7 +129,7 @@ func can_wall_slide() -> bool:
 	return is_on_wall() && hand_pruefer.is_colliding() && fuss_pruefer.is_colliding()
 	
 func should_slide() -> bool:
-	if ! Input.is_action_just_pressed(&"slide"): #just: 只按一下
+	if slide_request_timer.is_stopped(): #just: 只按一下
 		return false
 	return ! fuss_pruefer.is_colliding()
 
@@ -271,6 +274,7 @@ func transition_state(von: State, bis: State) -> void:
 			animation_player.play(&"tot")
 		State.SLIDING_START:
 			animation_player.play(&"sliding_start")
+			slide_request_timer.stop()
 		State.SLIDING_LOOP:
 			animation_player.play(&"sliding_loop")
 		State.SLIDING_END:
