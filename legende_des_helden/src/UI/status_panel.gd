@@ -3,6 +3,7 @@ extends HBoxContainer
 @export var statistik: Statistik
 
 @onready var gesundheitanzeige: TextureProgressBar = $Gesundheitanzeige
+@onready var geloeschter_gesundheitstab: TextureProgressBar = $Gesundheitstab/Geloeschter_Gesundheitstab
 
 func _ready() -> void:
 	statistik.gesundheit_geaendert.connect(aktualisieren_Gesundheit)

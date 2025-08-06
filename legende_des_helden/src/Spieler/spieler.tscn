@@ -2937,11 +2937,13 @@ metadata/_custom_type_script = "uid://boh7md4dsrobb"
 script = ExtResource("8_842cc")
 metadata/_custom_type_script = "uid://rv5bokpwa178"
 
-[node name="StatusPanel" parent="." node_paths=PackedStringArray("statistik") instance=ExtResource("9_0if0q")]
-offset_left = -44.0
-offset_top = -64.0
-offset_right = 44.0
-offset_bottom = -38.0
-statistik = NodePath("../Statistik")
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="StatusPanel" parent="CanvasLayer" node_paths=PackedStringArray("statistik") instance=ExtResource("9_0if0q")]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 96.0
+offset_bottom = 34.0
+statistik = NodePath("../../Statistik")
 
 [connection signal="hurt" from="Grafiken/Hurt_Box" to="." method="_on_hurt_box_hurt"]

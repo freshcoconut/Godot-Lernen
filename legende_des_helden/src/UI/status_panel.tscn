@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dqooaddlmitl1"]
+[gd_scene load_steps=9 format=3 uid="uid://dqooaddlmitl1"]
 
 [ext_resource type="Script" uid="uid://ccd3h2rgo2a0c" path="res://UI/status_panel.gd" id="1_moavk"]
 [ext_resource type="Texture2D" uid="uid://b2apxv1vduvoh" path="res://pic/Legacy-Fantasy - High Forest 2.3/HUD/Base-01.png" id="1_tuft4"]
@@ -24,6 +24,10 @@ region = Rect2(307, 21, 58, 6)
 atlas = ExtResource("1_tuft4")
 region = Rect2(308, 118, 56, 4)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_1u1vb"]
+atlas = ExtResource("1_tuft4")
+region = Rect2(308, 86, 56, 4)
+
 [node name="StatusPanel" type="HBoxContainer"]
 script = ExtResource("1_moavk")
 
@@ -37,12 +41,27 @@ layout_mode = 2
 texture = SubResource("AtlasTexture_0wo71")
 stretch_mode = 5
 
-[node name="Gesundheitanzeige" type="TextureProgressBar" parent="."]
+[node name="Gesundheitstab" type="TextureProgressBar" parent="."]
 layout_mode = 2
 size_flags_vertical = 4
 max_value = 1.0
 step = 0.0
-value = 1.0
+value = 0.8
 texture_over = SubResource("AtlasTexture_tuft4")
 texture_progress = SubResource("AtlasTexture_moavk")
+texture_progress_offset = Vector2(1, 1)
+
+[node name="Geloeschter_Gesundheitstab" type="TextureProgressBar" parent="Gesundheitstab"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.0
+value = 1.0
+texture_progress = SubResource("AtlasTexture_1u1vb")
 texture_progress_offset = Vector2(1, 1)
