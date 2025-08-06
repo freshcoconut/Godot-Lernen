@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://duqyhyphu0eiv"]
+[gd_scene load_steps=5 format=3 uid="uid://duqyhyphu0eiv"]
 
 [ext_resource type="Script" uid="uid://d0hj4edvsgh6a" path="res://Feinde/feind.gd" id="1_68dtx"]
 [ext_resource type="Script" uid="uid://boh7md4dsrobb" path="res://Klassen/Maschine_des_Standes.gd" id="2_1uben"]
+[ext_resource type="Script" uid="uid://rgwaxoksrj8y" path="res://Klassen/Hit_Box.gd" id="2_e564c"]
+[ext_resource type="Script" uid="uid://n4hv6gsdmgl0" path="res://Klassen/Hurt_Box.gd" id="3_e564c"]
 
 [node name="Feind" type="CharacterBody2D"]
 collision_layer = 4
@@ -10,6 +12,18 @@ script = ExtResource("1_68dtx")
 [node name="Grafiken" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="Grafiken"]
+
+[node name="Hit_Box" type="Area2D" parent="Grafiken"]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("2_e564c")
+metadata/_custom_type_script = "uid://rgwaxoksrj8y"
+
+[node name="Hurt_Box" type="Area2D" parent="Grafiken"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("3_e564c")
+metadata/_custom_type_script = "uid://n4hv6gsdmgl0"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 

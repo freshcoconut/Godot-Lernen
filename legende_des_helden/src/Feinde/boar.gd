@@ -65,6 +65,6 @@ func transition_state(von: State, bis: State) -> void:
 		State.RUN:
 			animation_player.play(&"run")
 			
-			
-			
-			
+func _on_hurt_box_hurt(hitbox: Hit_Box) -> void:
+	print("[%s] Boar: How dare you hit me!" %[Engine.get_physics_frames()])
+	queue_free()

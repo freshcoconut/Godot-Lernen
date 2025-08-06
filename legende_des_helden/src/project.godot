@@ -50,6 +50,9 @@ Angriff={
 
 2d_physics/layer_1="Umgebungs"
 2d_physics/layer_2="Spieler"
+2d_physics/layer_3="Feinde"
+2d_physics/layer_4="Spieler_Hurt_Box"
+2d_physics/layer_5="Feind_Hurt_Box"
 
 [rendering]
 
