@@ -40,6 +40,7 @@ var is_first_tick := false
 var is_combo_requested := false
 var pending_damage: Schaden
 var fall_from_y: float
+var interacting_with: Interactable
 
 @onready var grafiken: Node2D = $Grafiken
 @onready var hand_pruefer: RayCast2D = $Grafiken/HandPruefer

@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://lhbboospxw5x"]
+[gd_scene load_steps=34 format=3 uid="uid://lhbboospxw5x"]
 
 [ext_resource type="Script" uid="uid://bsmmkiernylrq" path="res://Spieler/spieler.gd" id="1_80j52"]
 [ext_resource type="Texture2D" uid="uid://bfx5dd02fjbcs" path="res://pic/char_blue_1.png" id="1_gcc2t"]
@@ -3558,6 +3558,8 @@ _data = {
 &"wall_sliding": SubResource("Animation_4r1ld")
 }
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_0if0q"]
+
 [node name="Spieler" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_80j52")
@@ -3652,5 +3654,8 @@ offset_top = 8.0
 offset_right = 96.0
 offset_bottom = 34.0
 statistik = NodePath("../../Statistik")
+
+[node name="InteractionIcon" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0if0q")
 
 [connection signal="hurt" from="Grafiken/Hurt_Box" to="." method="_on_hurt_box_hurt"]
