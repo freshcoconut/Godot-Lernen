@@ -17,6 +17,7 @@ enum State {
 	SLIDING_START,
 	SLIDING_LOOP,
 	SLIDING_END,
+	RECOVER,
 }
 
 const Staende_des_Grundes = [State.IDLE, State.RUNNING, State.LANDING, State.ATTACK_1, State.ATTACK_2, State.ATTACK_3]
@@ -114,6 +115,8 @@ func tick_physics(state: State, delta: float) -> void:
 			stand(default_gravity, delta)
 		State.SLIDING_START, State.SLIDING_LOOP:
 			slide(delta)
+		State.RECOVER:
+			stand(default_gravity, delta)
 	
 	is_first_tick = false
 					 
@@ -190,7 +193,9 @@ func get_next_state(state: State) -> int: #返回类型为int，因为有可能�
 			if should_slide():
 				return State.SLIDING_START
 			if !is_still:
-				return State.RUNNING			
+				return State.RUNNING	
+			if Input.is_action_just_pressed(&"recover"):
+				return State.RECOVER		
 		State.RUNNING:
 			if should_attack:
 				return State.ATTACK_1
@@ -241,6 +246,9 @@ func get_next_state(state: State) -> int: #返回类型为int，因为有可能�
 			if maschine_des_standes.Zeit_des_Standes > SLIDING_DURATION || is_on_wall():
 				return State.SLIDING_END
 		State.SLIDING_END:
+			if ! animation_player.is_playing():
+				return State.IDLE
+		State.RECOVER:
 			if ! animation_player.is_playing():
 				return State.IDLE
 			
@@ -319,6 +327,10 @@ func transition_state(von: State, bis: State) -> void:
 			animation_player.play(&"sliding_loop")
 		State.SLIDING_END:
 			animation_player.play(&"sliding_end")
+		State.RECOVER:
+			animation_player.play(&"recover")
+			statistik.heutige_gesundheit += 1
+			statistik.heutige_energie += 1.0
 	
 	if bis == State.WALL_JUMP:
 		Engine.time_scale = 0.3
