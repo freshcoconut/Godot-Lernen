@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://dqooaddlmitl1"]
+
+[ext_resource type="Script" uid="uid://ccd3h2rgo2a0c" path="res://UI/status_panel.gd" id="1_moavk"]
+[ext_resource type="Texture2D" uid="uid://b2apxv1vduvoh" path="res://pic/Legacy-Fantasy - High Forest 2.3/HUD/Base-01.png" id="1_tuft4"]
+[ext_resource type="Texture2D" uid="uid://r2q3b3yliap" path="res://pic/generic_char_v0.2/png/blue/char_blue_1.png" id="2_moavk"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1u1vb"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+texture = ExtResource("1_tuft4")
+region_rect = Rect2(323, 203, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0wo71"]
+atlas = ExtResource("2_moavk")
+region = Rect2(22, 24, 11, 11)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tuft4"]
+atlas = ExtResource("1_tuft4")
+region = Rect2(307, 21, 58, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_moavk"]
+atlas = ExtResource("1_tuft4")
+region = Rect2(308, 118, 56, 4)
+
+[node name="StatusPanel" type="HBoxContainer"]
+script = ExtResource("1_moavk")
+
+[node name="AvatarBox" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_1u1vb")
+
+[node name="Avatar" type="TextureRect" parent="AvatarBox"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_0wo71")
+stretch_mode = 5
+
+[node name="Gesundheitanzeige" type="TextureProgressBar" parent="."]
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.0
+value = 1.0
+texture_over = SubResource("AtlasTexture_tuft4")
+texture_progress = SubResource("AtlasTexture_moavk")
+texture_progress_offset = Vector2(1, 1)

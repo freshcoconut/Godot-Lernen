@@ -1,6 +1,8 @@
 class_name Statistik
 extends Node
 
+signal gesundheit_geaendert
+
 @export var max_Gesundheit: int = 3
 
 @onready var heutige_gesundheit: int = max_Gesundheit:
@@ -9,3 +11,4 @@ extends Node
 		if v == heutige_gesundheit:
 			return
 		heutige_gesundheit = v
+		gesundheit_geaendert.emit()

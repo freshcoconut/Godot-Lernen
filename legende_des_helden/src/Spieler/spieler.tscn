@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://lhbboospxw5x"]
+[gd_scene load_steps=30 format=3 uid="uid://lhbboospxw5x"]
 
 [ext_resource type="Script" uid="uid://bsmmkiernylrq" path="res://Spieler/spieler.gd" id="1_80j52"]
 [ext_resource type="Texture2D" uid="uid://bfx5dd02fjbcs" path="res://pic/char_blue_1.png" id="1_gcc2t"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://rgwaxoksrj8y" path="res://Klassen/Hit_Box.gd" id="4_tfs50"]
 [ext_resource type="Texture2D" uid="uid://r2q3b3yliap" path="res://pic/generic_char_v0.2/png/blue/char_blue_1.png" id="6_4r1ld"]
 [ext_resource type="Script" uid="uid://rv5bokpwa178" path="res://Klassen/Statistik.gd" id="8_842cc"]
+[ext_resource type="PackedScene" uid="uid://dqooaddlmitl1" path="res://UI/status_panel.tscn" id="9_0if0q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3taev"]
 size = Vector2(12, 29)
@@ -2935,5 +2936,12 @@ metadata/_custom_type_script = "uid://boh7md4dsrobb"
 [node name="Statistik" type="Node" parent="."]
 script = ExtResource("8_842cc")
 metadata/_custom_type_script = "uid://rv5bokpwa178"
+
+[node name="StatusPanel" parent="." node_paths=PackedStringArray("statistik") instance=ExtResource("9_0if0q")]
+offset_left = -44.0
+offset_top = -64.0
+offset_right = 44.0
+offset_bottom = -38.0
+statistik = NodePath("../Statistik")
 
 [connection signal="hurt" from="Grafiken/Hurt_Box" to="." method="_on_hurt_box_hurt"]
