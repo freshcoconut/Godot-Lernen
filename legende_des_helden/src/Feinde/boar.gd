@@ -4,7 +4,11 @@ enum State {
 	IDLE,
 	WALK,
 	RUN,
+	HURT,
+	TOT,
 }
+
+var pending_damage: Schaden #待处理的伤害
 
 @onready var wand_pruefer: RayCast2D = $Grafiken/WandPruefer
 @onready var spieler_pruefer: RayCast2D = $Grafiken/SpielerPruefer
@@ -66,7 +70,10 @@ func transition_state(von: State, bis: State) -> void:
 			animation_player.play(&"run")
 			
 func _on_hurt_box_hurt(hitbox: Hit_Box) -> void:
-	print("[%s] Boar: How dare you hurt me!" %[Engine.get_physics_frames()])
+	print("[%s] Boar: %s! how dare you hurt me!" %[Engine.get_physics_frames(), hitbox.owner.name])
+	pending_damage = Schaden.new()
+	pending_damage.menge = 1
+	pending_damage.quelle = hitbox.owner
 	statistik.heutige_gesundheit -= 1
 	if statistik.heutige_gesundheit == 0:
 		queue_free()
