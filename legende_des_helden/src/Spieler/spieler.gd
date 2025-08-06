@@ -28,6 +28,10 @@ const Himmel_Beschleunigung := Tempo / 0.1 # 0.02s for acceleration
 const KNOCKBACK_AMOUNT := 512.0
 const SLIDING_DURATION := 0.3
 const SLIDING_SPEED := 240.0
+const SLIDING_ENERGIE := 2.0
+const ANGRIFF_ENERGIE := 0.5
+const SPRINGEN_ENERGIE := 1.0
+const LANDING_HEIGHT := 100.0
 
 @export var can_combo = false
 
@@ -35,6 +39,7 @@ var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as floa
 var is_first_tick := false
 var is_combo_requested := false
 var pending_damage: Schaden
+var fall_from_y: float
 
 @onready var grafiken: Node2D = $Grafiken
 @onready var hand_pruefer: RayCast2D = $Grafiken/HandPruefer
@@ -46,6 +51,10 @@ var pending_damage: Schaden
 @onready var statistik: Statistik = $Statistik
 @onready var unschlagbar_timer: Timer = $UnschlagbarTimer
 @onready var slide_request_timer: Timer = $SlideRequestTimer
+@onready var can_attack := false
+@onready var should_attack := false
+@onready var can_jump := false
+@onready var should_jump := false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"springen"):
@@ -55,7 +64,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		jump_request_timer.stop()
 		if velocity.y < Tempo_Springen / 2:
 			velocity.y = Tempo_Springen / 2
-	if event.is_action_pressed(&"Angriff") && can_combo:
+	if can_attack && can_combo:
 		is_combo_requested = true
 	if event.is_action_pressed(&"slide"):
 		slide_request_timer.start()
@@ -65,6 +74,11 @@ func tick_physics(state: State, delta: float) -> void:
 		grafiken.modulate.a = sin(Time.get_ticks_msec() / 20) * 0.5 + 0.5
 	else:
 		grafiken.modulate.a = 1
+		
+	can_attack = statistik.heutige_energie >= ANGRIFF_ENERGIE
+	should_attack = statistik.heutige_energie >= ANGRIFF_ENERGIE && Input.is_action_just_pressed(&"Angriff")
+	can_jump = statistik.heutige_energie >= SPRINGEN_ENERGIE && (is_on_floor() || coyote_timer.time_left > 0)
+	should_jump = can_jump && jump_request_timer.time_left > 0
 		
 	match state:
 		State.IDLE:
@@ -131,6 +145,8 @@ func can_wall_slide() -> bool:
 func should_slide() -> bool:
 	if slide_request_timer.is_stopped(): #just: 只按一下
 		return false
+	if statistik.heutige_energie < SLIDING_ENERGIE:
+		return false;
 	return ! fuss_pruefer.is_colliding()
 
 func get_next_state(state: State) -> int: #返回类型为int，因为有可能返回-1
@@ -140,7 +156,7 @@ func get_next_state(state: State) -> int: #返回类型为int，因为有可能�
 	if pending_damage: #pending_damage > 0
 		return State.HURT
 		
-	var can_jump := is_on_floor() || coyote_timer.time_left > 0
+	var can_jump := statistik.heutige_energie >= SPRINGEN_ENERGIE && (is_on_floor() || coyote_timer.time_left > 0)
 	var should_jump := can_jump && jump_request_timer.time_left > 0
 	if should_jump:
 		return State.JUMP
@@ -152,14 +168,14 @@ func get_next_state(state: State) -> int: #返回类型为int，因为有可能�
 	var is_still := is_zero_approx(Richtung) && is_zero_approx(velocity.x)
 	match state:
 		State.IDLE:
-			if Input.is_action_pressed(&"Angriff"):
+			if should_attack:
 				return State.ATTACK_1
 			if should_slide():
 				return State.SLIDING_START
 			if !is_still:
 				return State.RUNNING			
 		State.RUNNING:
-			if Input.is_action_pressed(&"Angriff"):
+			if should_attack:
 				return State.ATTACK_1
 			if should_slide():
 				return State.SLIDING_START
@@ -170,13 +186,12 @@ func get_next_state(state: State) -> int: #返回类型为int，因为有可能�
 				return State.FALL			
 		State.FALL:
 			if is_on_floor():
-				return State.LANDING if is_still else State.RUNNING
+				var height = global_position.y - fall_from_y
+				return State.LANDING if height >= LANDING_HEIGHT else State.RUNNING
 			if can_wall_slide():
 				return State.WALL_SLIDING
 		State.LANDING:
-			if ! is_still:
-				return State.RUNNING
-			elif ! animation_player.is_playing():
+			if ! animation_player.is_playing():
 				return State.IDLE	
 		State.WALL_SLIDING:
 			if jump_request_timer.time_left > 0 && ! is_first_tick:
@@ -234,10 +249,12 @@ func transition_state(von: State, bis: State) -> void:
 			velocity.y = Tempo_Springen
 			coyote_timer.stop()
 			jump_request_timer.stop()
+			statistik.heutige_energie -= SPRINGEN_ENERGIE
 		State.FALL:
 			animation_player.play(&"fall")
 			if von in Staende_des_Grundes:
 				coyote_timer.start()
+			fall_from_y = global_position.y
 		State.LANDING:
 			animation_player.play(&"landing")
 		State.WALL_SLIDING:
@@ -247,15 +264,19 @@ func transition_state(von: State, bis: State) -> void:
 			velocity = Tempo_Springen_Auf_Wand
 			velocity.x *= get_wall_normal().x
 			jump_request_timer.stop()
+			statistik.heutige_energie -= SPRINGEN_ENERGIE
 		State.ATTACK_1:
 			animation_player.play(&"attack_1")
 			is_combo_requested = false
+			statistik.heutige_energie -= ANGRIFF_ENERGIE
 		State.ATTACK_2:
 			animation_player.play(&"attack_2")
 			is_combo_requested = false
+			statistik.heutige_energie -= ANGRIFF_ENERGIE
 		State.ATTACK_3:
 			animation_player.play(&"attack_3")
 			is_combo_requested = false
+			statistik.heutige_energie -= ANGRIFF_ENERGIE
 		State.HURT:
 			animation_player.play(&"hurt")
 			
@@ -275,6 +296,7 @@ func transition_state(von: State, bis: State) -> void:
 		State.SLIDING_START:
 			animation_player.play(&"sliding_start")
 			slide_request_timer.stop()
+			statistik.heutige_energie -= SLIDING_ENERGIE
 		State.SLIDING_LOOP:
 			animation_player.play(&"sliding_loop")
 		State.SLIDING_END:
