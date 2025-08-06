@@ -401,4 +401,7 @@ libraries = {
 wait_time = 2.5
 one_shot = true
 
+[node name="Statistik" parent="." index="5"]
+max_Gesundheit = 5
+
 [connection signal="hurt" from="Grafiken/Hurt_Box" to="." method="_on_hurt_box_hurt"]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://duqyhyphu0eiv"]
+[gd_scene load_steps=6 format=3 uid="uid://duqyhyphu0eiv"]
 
 [ext_resource type="Script" uid="uid://d0hj4edvsgh6a" path="res://Feinde/feind.gd" id="1_68dtx"]
 [ext_resource type="Script" uid="uid://boh7md4dsrobb" path="res://Klassen/Maschine_des_Standes.gd" id="2_1uben"]
 [ext_resource type="Script" uid="uid://rgwaxoksrj8y" path="res://Klassen/Hit_Box.gd" id="2_e564c"]
 [ext_resource type="Script" uid="uid://n4hv6gsdmgl0" path="res://Klassen/Hurt_Box.gd" id="3_e564c"]
+[ext_resource type="Script" uid="uid://rv5bokpwa178" path="res://Klassen/Statistik.gd" id="5_pnplm"]
 
 [node name="Feind" type="CharacterBody2D"]
 collision_layer = 4
@@ -32,3 +33,7 @@ metadata/_custom_type_script = "uid://n4hv6gsdmgl0"
 [node name="Maschine_des_Standes" type="Node" parent="."]
 script = ExtResource("2_1uben")
 metadata/_custom_type_script = "uid://boh7md4dsrobb"
+
+[node name="Statistik" type="Node" parent="."]
+script = ExtResource("5_pnplm")
+metadata/_custom_type_script = "uid://rv5bokpwa178"

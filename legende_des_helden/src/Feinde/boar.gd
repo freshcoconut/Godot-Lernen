@@ -66,5 +66,7 @@ func transition_state(von: State, bis: State) -> void:
 			animation_player.play(&"run")
 			
 func _on_hurt_box_hurt(hitbox: Hit_Box) -> void:
-	print("[%s] Boar: How dare you hit me!" %[Engine.get_physics_frames()])
-	queue_free()
+	print("[%s] Boar: How dare you hurt me!" %[Engine.get_physics_frames()])
+	statistik.heutige_gesundheit -= 1
+	if statistik.heutige_gesundheit == 0:
+		queue_free()

@@ -14,6 +14,7 @@ var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as floa
 @onready var grafiken: Node2D = $Grafiken
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var maschine_des_standes: Maschine_des_Standes = $Maschine_des_Standes
+@onready var statistik: Statistik = $Statistik
 
 #Standardwert
 @export var richtung := Richtung.LINKS:
