@@ -15,7 +15,7 @@ func interact() -> void:
 	interacted.emit()
 
 func _on_body_entered(spieler: Spieler) -> void:
-	spieler.interacting_with = self
+	spieler.anmelden_interactable(self)
 	
 func _on_body_exited(spieler: Spieler) -> void:
-	spieler.interacting_with = null
+	spieler.abmelden_interactable(self)

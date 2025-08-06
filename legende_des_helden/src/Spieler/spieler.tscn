@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://lhbboospxw5x"]
+[gd_scene load_steps=37 format=3 uid="uid://lhbboospxw5x"]
 
 [ext_resource type="Script" uid="uid://bsmmkiernylrq" path="res://Spieler/spieler.gd" id="1_80j52"]
 [ext_resource type="Texture2D" uid="uid://bfx5dd02fjbcs" path="res://pic/char_blue_1.png" id="1_gcc2t"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://r2q3b3yliap" path="res://pic/generic_char_v0.2/png/blue/char_blue_1.png" id="6_4r1ld"]
 [ext_resource type="Script" uid="uid://rv5bokpwa178" path="res://Klassen/Statistik.gd" id="8_842cc"]
 [ext_resource type="PackedScene" uid="uid://dqooaddlmitl1" path="res://UI/status_panel.tscn" id="9_0if0q"]
+[ext_resource type="Texture2D" uid="uid://cxbchwvmv4lgx" path="res://pic/keyboard-&-mouse_sheet_default.png" id="10_yq4os"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3taev"]
 size = Vector2(12, 29)
@@ -3558,7 +3559,27 @@ _data = {
 &"wall_sliding": SubResource("Animation_4r1ld")
 }
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_jqhgl"]
+atlas = ExtResource("10_yq4os")
+region = Rect2(640, 640, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rh2a0"]
+atlas = ExtResource("10_yq4os")
+region = Rect2(704, 640, 64, 64)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_0if0q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jqhgl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rh2a0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
 
 [node name="Spieler" type="CharacterBody2D"]
 collision_layer = 2
@@ -3656,6 +3677,10 @@ offset_bottom = 34.0
 statistik = NodePath("../../Statistik")
 
 [node name="InteractionIcon" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -40)
+scale = Vector2(0.265625, 0.265625)
 sprite_frames = SubResource("SpriteFrames_0if0q")
+autoplay = "default"
+frame_progress = 0.684817
 
 [connection signal="hurt" from="Grafiken/Hurt_Box" to="." method="_on_hurt_box_hurt"]

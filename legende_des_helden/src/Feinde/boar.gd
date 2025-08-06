@@ -62,11 +62,11 @@ func get_next_state(state: State) -> int: #返回类型为int，因为有可能�
 	return maschine_des_standes.KEEP_CURRENT # unveraendert beleiben, wenn state keine von den drei Staenden auswaehlt
 	
 func transition_state(von: State, bis: State) -> void:
-	print("[%s] Boar: %s => %s" %[
-		Engine.get_physics_frames(),
-		State.keys()[von] if von != -1 else "Start",
-		State.keys()[bis],
-	])
+	#print("[%s] Boar: %s => %s" %[
+		#Engine.get_physics_frames(),
+		#State.keys()[von] if von != -1 else "Start",
+		#State.keys()[bis],
+	#])
 	
 	match bis:
 		State.IDLE:

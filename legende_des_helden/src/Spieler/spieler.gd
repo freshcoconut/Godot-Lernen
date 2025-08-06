@@ -40,7 +40,7 @@ var is_first_tick := false
 var is_combo_requested := false
 var pending_damage: Schaden
 var fall_from_y: float
-var interacting_with: Interactable
+var interacting_with: Array[Interactable]
 
 @onready var grafiken: Node2D = $Grafiken
 @onready var hand_pruefer: RayCast2D = $Grafiken/HandPruefer
@@ -56,6 +56,7 @@ var interacting_with: Interactable
 @onready var should_attack := false
 @onready var can_jump := false
 @onready var should_jump := false
+@onready var interaction_icon: AnimatedSprite2D = $InteractionIcon
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"springen"):
@@ -69,8 +70,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		is_combo_requested = true
 	if event.is_action_pressed(&"slide"):
 		slide_request_timer.start()
+	if event.is_action_pressed(&"interact") && interacting_with: # interacting_with != null
+		interacting_with.back().interact()
 
 func tick_physics(state: State, delta: float) -> void:
+	interaction_icon.visible = ! interacting_with.is_empty()
+	
 	if unschlagbar_timer.time_left > 0:
 		grafiken.modulate.a = sin(Time.get_ticks_msec() / 20) * 0.5 + 0.5
 	else:
@@ -139,6 +144,17 @@ func slide(delta: float) -> void:
 func tot() -> void:
 	get_tree().reload_current_scene()
 	print("[%s] Spieler: I am back!" %[Engine.get_physics_frames()])	
+	
+func anmelden_interactable(v: Interactable) -> void:
+	if maschine_des_standes.heutiger_Stand == State.TOT: #死亡状态下不接受新的交互
+		return
+	if v in interacting_with:
+		return
+	interacting_with.append(v)
+	
+func abmelden_interactable(v: Interactable) -> void:
+	interacting_with.erase(v)
+	
 
 func can_wall_slide() -> bool:
 	return is_on_wall() && hand_pruefer.is_colliding() && fuss_pruefer.is_colliding()
@@ -231,11 +247,11 @@ func get_next_state(state: State) -> int: #返回类型为int，因为有可能�
 	return Maschine_des_Standes.KEEP_CURRENT
 	
 func transition_state(von: State, bis: State) -> void:
-	print("[%s] Spieler: %s => %s" %[
-		Engine.get_physics_frames(),
-		State.keys()[von] if von != -1 else "Start",
-		State.keys()[bis],
-	])
+	#print("[%s] Spieler: %s => %s" %[
+		#Engine.get_physics_frames(),
+		#State.keys()[von] if von != -1 else "Start",
+		#State.keys()[bis],
+	#])
 	
 	if ! von in Staende_des_Grundes && bis in Staende_des_Grundes:
 		coyote_timer.stop()
@@ -294,6 +310,7 @@ func transition_state(von: State, bis: State) -> void:
 			print("[%s] Spieler: I will be back!" %[Engine.get_physics_frames()])
 			unschlagbar_timer.stop()
 			animation_player.play(&"tot")
+			interacting_with.clear()
 		State.SLIDING_START:
 			animation_player.play(&"sliding_start")
 			slide_request_timer.stop()
