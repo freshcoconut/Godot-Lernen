@@ -15,6 +15,10 @@ run/main_scene="uid://b6hd0lpa5lll6"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Spiel="*res://Globale/Spiel.tscn"
+
 [display]
 
 window/size/viewport_width=384

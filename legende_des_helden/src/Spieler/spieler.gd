@@ -1,6 +1,11 @@
 class_name  Spieler
 extends CharacterBody2D
 
+enum Richtung {
+	LINKS = -1,
+	RECHTS = 1,
+}
+
 enum State {
 	IDLE,
 	RUNNING,
@@ -30,11 +35,17 @@ const KNOCKBACK_AMOUNT := 512.0
 const SLIDING_DURATION := 0.3
 const SLIDING_SPEED := 240.0
 const SLIDING_ENERGIE := 2.0
-const ANGRIFF_ENERGIE := 0.5
-const SPRINGEN_ENERGIE := 1.0
+const ANGRIFF_ENERGIE := 1.0
+const SPRINGEN_ENERGIE := 1.5
 const LANDING_HEIGHT := 100.0
 
 @export var can_combo = false
+@export var richtung := Richtung.RECHTS:
+	set(v):
+		richtung = v
+		if ! is_node_ready():
+			await ready
+		grafiken.scale.x = richtung
 
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
 var is_first_tick := false
@@ -50,7 +61,7 @@ var interacting_with: Array[Interactable]
 @onready var coyote_timer: Timer = $CoyoteTimer
 @onready var jump_request_timer: Timer = $JumpRequestTimer
 @onready var maschine_des_standes: Maschine_des_Standes = $Maschine_des_Standes
-@onready var statistik: Statistik = $Statistik
+@onready var statistik: Statistik = Spiel.spieler_statistik
 @onready var unschlagbar_timer: Timer = $UnschlagbarTimer
 @onready var slide_request_timer: Timer = $SlideRequestTimer
 @onready var can_attack := false
@@ -100,11 +111,11 @@ func tick_physics(state: State, delta: float) -> void:
 			stand(default_gravity, delta)
 		State.WALL_SLIDING:
 			move(default_gravity / 12, delta)
-			grafiken.scale.x = get_wall_normal().x
+			richtung = Richtung.LINKS if get_wall_normal().x < 0 else Richtung.RECHTS
 		State.WALL_JUMP:
 			if maschine_des_standes.Zeit_des_Standes < 0.1:
 				stand(0.0 if is_first_tick else default_gravity, delta)
-				grafiken.scale.x = get_wall_normal().x
+				richtung = Richtung.LINKS if get_wall_normal().x < 0 else Richtung.RECHTS
 			else:
 				move(default_gravity, delta)	
 		State.ATTACK_1, State.ATTACK_2, State.ATTACK_3:
@@ -121,13 +132,13 @@ func tick_physics(state: State, delta: float) -> void:
 	is_first_tick = false
 					 
 func move(gravity: float, delta: float) -> void:
-	var Richtung := Input.get_axis("sich_nach_links_bewegen", "sich_nach_rechts_bewegen")
+	var bewegung := Input.get_axis("sich_nach_links_bewegen", "sich_nach_rechts_bewegen")
 	var Beschleunigung = Grund_Beschleunigung if is_on_floor() else Himmel_Beschleunigung
-	velocity.x = move_toward(velocity.x, Richtung * Tempo, Beschleunigung * delta)  
+	velocity.x = move_toward(velocity.x, bewegung * Tempo, Beschleunigung * delta)  
 	velocity.y += gravity * delta
 	
-	if ! is_zero_approx(Richtung):
-		grafiken.scale.x = -1 if Richtung < 0 else 1
+	if ! is_zero_approx(bewegung):
+		richtung = Richtung.LINKS if bewegung < 0 else Richtung.RECHTS
 	
 	move_and_slide()
 
@@ -184,8 +195,8 @@ func get_next_state(state: State) -> int: #返回类型为int，因为有可能�
 	if state in Staende_des_Grundes && ! is_on_floor():
 		return State.FALL
 		
-	var Richtung := Input.get_axis("sich_nach_links_bewegen", "sich_nach_rechts_bewegen")
-	var is_still := is_zero_approx(Richtung) && is_zero_approx(velocity.x)
+	var bewegung := Input.get_axis("sich_nach_links_bewegen", "sich_nach_rechts_bewegen")
+	var is_still := is_zero_approx(bewegung) && is_zero_approx(velocity.x)
 	match state:
 		State.IDLE:
 			if should_attack:
@@ -216,7 +227,7 @@ func get_next_state(state: State) -> int: #返回类型为int，因为有可能�
 			if ! animation_player.is_playing():
 				return State.IDLE	
 		State.WALL_SLIDING:
-			if jump_request_timer.time_left > 0 && ! is_first_tick:
+			if jump_request_timer.time_left > 0 && statistik.heutige_energie >= SPRINGEN_ENERGIE && ! is_first_tick:
 				return State.WALL_JUMP
 			if is_on_floor():
 				return State.IDLE
@@ -319,6 +330,9 @@ func transition_state(von: State, bis: State) -> void:
 			unschlagbar_timer.stop()
 			animation_player.play(&"tot")
 			interacting_with.clear()
+			statistik.heutige_gesundheit = statistik.max_Gesundheit
+			statistik.heutige_energie = statistik.max_Energie
+			
 		State.SLIDING_START:
 			animation_player.play(&"sliding_start")
 			slide_request_timer.stop()
@@ -329,8 +343,8 @@ func transition_state(von: State, bis: State) -> void:
 			animation_player.play(&"sliding_end")
 		State.RECOVER:
 			animation_player.play(&"recover")
-			statistik.heutige_gesundheit += 1
-			statistik.heutige_energie += 1.0
+			#statistik.heutige_gesundheit += 1
+			statistik.heutige_energie +=  4.0
 	
 	if bis == State.WALL_JUMP:
 		Engine.time_scale = 0.3
