@@ -26,3 +26,15 @@ signal energie_geaendert
 		
 func _process(delta: float) -> void:
 	heutige_energie += energie_regen * delta # energie_regen for every second
+	
+func to_dict() -> Dictionary:		
+	return {
+		title_max_Energie=max_Energie,
+		title_max_Gesundheit=max_Gesundheit,
+		title_heutige_gesundheit=heutige_gesundheit
+	}
+	
+func from_dict(dict: Dictionary) -> void:
+	max_Energie = dict.title_max_Energie
+	max_Gesundheit = dict.title_max_Gesundheit
+	heutige_gesundheit = dict.title_heutige_gesundheit

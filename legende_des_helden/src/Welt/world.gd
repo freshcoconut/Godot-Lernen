@@ -29,7 +29,7 @@ func to_dict() -> Dictionary:
 	var betraege_lebendige_feinde := []
 	
 	for node in get_tree().get_nodes_in_group("feinde"):
-		var path := get_path_to(node)
+		var path := get_path_to(node) as String
 		betraege_lebendige_feinde.append(path)
 		
 	return {
@@ -38,6 +38,6 @@ func to_dict() -> Dictionary:
 	
 func from_dict(dict: Dictionary) -> void:
 	for node in get_tree().get_nodes_in_group("feinde"):
-		var path := get_path_to(node)
+		var path := get_path_to(node) as String
 		if !path in dict.lebendige_feinde:
 			node.queue_free()
