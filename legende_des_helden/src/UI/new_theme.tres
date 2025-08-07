@@ -1,0 +1,28 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://b0ic1ynxwu87y"]
+
+[ext_resource type="FontFile" uid="uid://dj7ayiq006vn3" path="res://pic/SourceHanSerifCN-Regular.otf" id="1_mg8jf"]
+[ext_resource type="Texture2D" uid="uid://b2apxv1vduvoh" path="res://pic/Legacy-Fantasy - High Forest 2.3/HUD/Base-01.png" id="1_pyjol"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mg8jf"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i4k6b"]
+texture = ExtResource("1_pyjol")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(94, 14, 20, 20)
+
+[resource]
+default_font = ExtResource("1_mg8jf")
+Button/colors/font_outline_color = Color(0, 0, 0, 0.4)
+Button/constants/outline_size = 6
+Button/styles/disabled = SubResource("StyleBoxEmpty_mg8jf")
+Button/styles/focus = SubResource("StyleBoxTexture_i4k6b")
+Button/styles/hover = SubResource("StyleBoxEmpty_mg8jf")
+Button/styles/normal = SubResource("StyleBoxEmpty_mg8jf")
+Button/styles/pressed = SubResource("StyleBoxEmpty_mg8jf")

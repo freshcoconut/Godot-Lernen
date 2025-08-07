@@ -5,6 +5,8 @@ enum Richtung {
 	LINKS = -1,
 	RECHTS = 1,
 }
+
+signal tot_signal
 	
 @export var max_tempo: float = 180
 @export var beschleunigung: float = 2000
@@ -33,4 +35,6 @@ func move(tempo: float, delta: float) -> void:
 	move_and_slide()
 	
 func tot() -> void:
+	tot_signal.emit()
 	queue_free()
+	

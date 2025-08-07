@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Legende_des_Helden"
-run/main_scene="uid://b6hd0lpa5lll6"
+run/main_scene="uid://bhdgcdcths06g"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -34,6 +34,10 @@ enabled=PackedStringArray("res://addons/com.timothyqiu.animation-resetter/plugin
 [global_group]
 
 feinde=""
+
+[gui]
+
+theme/custom_font="uid://dj7ayiq006vn3"
 
 [input]
 

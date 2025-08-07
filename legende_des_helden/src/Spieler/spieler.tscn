@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://lhbboospxw5x"]
+[gd_scene load_steps=47 format=3 uid="uid://lhbboospxw5x"]
 
 [ext_resource type="Script" uid="uid://bsmmkiernylrq" path="res://Spieler/spieler.gd" id="1_80j52"]
 [ext_resource type="Texture2D" uid="uid://bfx5dd02fjbcs" path="res://pic/char_blue_1.png" id="1_gcc2t"]
@@ -8,7 +8,17 @@
 [ext_resource type="Script" uid="uid://rgwaxoksrj8y" path="res://Klassen/Hit_Box.gd" id="4_tfs50"]
 [ext_resource type="Texture2D" uid="uid://r2q3b3yliap" path="res://pic/generic_char_v0.2/png/blue/char_blue_1.png" id="6_4r1ld"]
 [ext_resource type="PackedScene" uid="uid://dqooaddlmitl1" path="res://UI/status_panel.tscn" id="9_0if0q"]
+[ext_resource type="PackedScene" uid="uid://c8i2yyf63aopo" path="res://UI/game_over.tscn" id="9_yq4os"]
 [ext_resource type="Texture2D" uid="uid://cxbchwvmv4lgx" path="res://pic/keyboard-&-mouse_sheet_default.png" id="10_yq4os"]
+[ext_resource type="AudioStream" uid="uid://buim3d7t4h37u" path="res://pic/audio/attack_complete-copy.wav" id="11_gga7n"]
+[ext_resource type="AudioStream" uid="uid://ckk0gckb2dsls" path="res://pic/audio/jump_x-deepin-app-sent-to-desktop.wav" id="12_aj14w"]
+[ext_resource type="AudioStream" uid="uid://dt07f0yv0m3jx" path="res://pic/audio/hurt_device-added.wav" id="12_bpde6"]
+[ext_resource type="AudioStream" uid="uid://bdhmrpqf4otdd" path="res://pic/audio/attack_2_audio-volume-change.wav" id="12_w2k82"]
+[ext_resource type="AudioStream" uid="uid://jck5hyhbu5em" path="res://pic/audio/attack_3_device-removed.wav" id="13_6fkvw"]
+[ext_resource type="AudioStream" uid="uid://cnayv5auctwuw" path="res://pic/audio/die_desktop-logout.wav" id="13_aj14w"]
+[ext_resource type="AudioStream" uid="uid://bbywgymqotroo" path="res://pic/audio/slide_dialog-error-critical.wav" id="15_5rm5a"]
+[ext_resource type="AudioStream" uid="uid://btbnd2fh57670" path="res://pic/audio/recover_trash-empty.wav" id="16_6fkvw"]
+[ext_resource type="AudioStream" uid="uid://doads00iluxcb" path="res://pic/audio/interact_camera-shutter.wav" id="19_aa3yj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3taev"]
 size = Vector2(12, 29)
@@ -3904,6 +3914,8 @@ offset_top = 8.0
 offset_right = 96.0
 offset_bottom = 34.0
 
+[node name="GameOver" parent="CanvasLayer" instance=ExtResource("9_yq4os")]
+
 [node name="InteractionIcon" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -40)
 scale = Vector2(0.265625, 0.265625)
@@ -3911,4 +3923,33 @@ sprite_frames = SubResource("SpriteFrames_0if0q")
 autoplay = "default"
 frame_progress = 0.684817
 
+[node name="Attack_Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_gga7n")
+
+[node name="Attack2_Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_w2k82")
+
+[node name="Attack3_Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_6fkvw")
+
+[node name="Jump_Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_aj14w")
+
+[node name="Slide_Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_5rm5a")
+
+[node name="Hurt_Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_bpde6")
+
+[node name="Recover_Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_6fkvw")
+
+[node name="Die_Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_aj14w")
+volume_db = -4.589
+
+[node name="Interact_Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_aa3yj")
+
 [connection signal="hurt" from="Grafiken/Hurt_Box" to="." method="_on_hurt_box_hurt"]
+[connection signal="hit" from="Grafiken/Hit_Box" to="." method="_on_hit_box_hit"]

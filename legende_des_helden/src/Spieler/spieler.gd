@@ -69,6 +69,16 @@ var interacting_with: Array[Interactable]
 @onready var can_jump := false
 @onready var should_jump := false
 @onready var interaction_icon: AnimatedSprite2D = $InteractionIcon
+@onready var game_over: Control = $CanvasLayer/GameOver
+@onready var attack_audio: AudioStreamPlayer = $Attack_Audio
+@onready var attack_2_audio: AudioStreamPlayer = $Attack2_Audio
+@onready var attack_3_audio: AudioStreamPlayer = $Attack3_Audio
+@onready var jump_audio: AudioStreamPlayer = $Jump_Audio
+@onready var hurt_audio: AudioStreamPlayer = $Hurt_Audio
+@onready var die_audio: AudioStreamPlayer = $Die_Audio
+@onready var recover_audio: AudioStreamPlayer = $Recover_Audio
+@onready var slide_audio: AudioStreamPlayer = $Slide_Audio
+@onready var interact_audio: AudioStreamPlayer = $Interact_Audio
 
 func _ready() -> void:
 	stand(default_gravity, 0.01)
@@ -86,6 +96,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"slide"):
 		slide_request_timer.start()
 	if event.is_action_pressed(&"interact") && interacting_with: # interacting_with != null
+		interact_audio.play()
 		interacting_with.back().interact()
 
 func tick_physics(state: State, delta: float) -> void:
@@ -159,8 +170,7 @@ func slide(delta: float) -> void:
 	move_and_slide()
 
 func tot() -> void:
-	get_tree().reload_current_scene()
-	print("[%s] Spieler: I am back!" %[Engine.get_physics_frames()])	
+	game_over.show_game_over()
 	
 func anmelden_interactable(v: Interactable) -> void:
 	if maschine_des_standes.heutiger_Stand == State.TOT: #死亡状态下不接受新的交互
@@ -287,6 +297,7 @@ func transition_state(von: State, bis: State) -> void:
 			animation_player.play(&"running")
 		State.JUMP:
 			animation_player.play(&"jump")
+			jump_audio.play()
 			velocity.y = Tempo_Springen
 			coyote_timer.stop()
 			jump_request_timer.stop()
@@ -302,24 +313,30 @@ func transition_state(von: State, bis: State) -> void:
 			animation_player.play(&"wall_sliding")
 		State.WALL_JUMP:
 			animation_player.play(&"jump")
+			jump_audio.play()
 			velocity = Tempo_Springen_Auf_Wand
 			velocity.x *= get_wall_normal().x
 			jump_request_timer.stop()
 			statistik.heutige_energie -= SPRINGEN_ENERGIE
 		State.ATTACK_1:
 			animation_player.play(&"attack_1")
+			attack_audio.play()
 			is_combo_requested = false
 			statistik.heutige_energie -= ANGRIFF_ENERGIE
 		State.ATTACK_2:
 			animation_player.play(&"attack_2")
+			attack_2_audio.play()
 			is_combo_requested = false
 			statistik.heutige_energie -= ANGRIFF_ENERGIE
 		State.ATTACK_3:
 			animation_player.play(&"attack_3")
+			attack_3_audio.play()
 			is_combo_requested = false
 			statistik.heutige_energie -= ANGRIFF_ENERGIE
 		State.HURT:
 			animation_player.play(&"hurt")
+			hurt_audio.play()
+			Spiel.shake_camera(7)
 			
 			#Die Gesundheit wird verringert.
 			statistik.heutige_gesundheit -= pending_damage.menge
@@ -335,19 +352,22 @@ func transition_state(von: State, bis: State) -> void:
 			unschlagbar_timer.stop()
 			animation_player.play(&"tot")
 			interacting_with.clear()
-			statistik.heutige_gesundheit = statistik.max_Gesundheit
-			statistik.heutige_energie = statistik.max_Energie
+			die_audio.play()
+			#statistik.heutige_gesundheit = statistik.max_Gesundheit
+			#statistik.heutige_energie = statistik.max_Energie
 			
 		State.SLIDING_START:
 			animation_player.play(&"sliding_start")
+			slide_audio.play()
 			slide_request_timer.stop()
 			statistik.heutige_energie -= SLIDING_ENERGIE
 		State.SLIDING_LOOP:
-			animation_player.play(&"sliding_loop")
+			animation_player.play(&"sliding_loop")		
 		State.SLIDING_END:
 			animation_player.play(&"sliding_end")
 		State.RECOVER:
 			animation_player.play(&"recover")
+			recover_audio.play()
 			#statistik.heutige_gesundheit += 1
 			statistik.heutige_energie +=  6.0
 	
@@ -368,3 +388,11 @@ func _on_hurt_box_hurt(hitbox: Hit_Box) -> void:
 	pending_damage.quelle = hitbox.owner
 	if statistik.heutige_gesundheit == 0:
 		queue_free()
+
+
+func _on_hit_box_hit(hurtbox: Variant) -> void:
+	Spiel.shake_camera(5)
+	
+	Engine.time_scale = 0.05
+	await get_tree().create_timer(0.1, true, false, true).timeout
+	Engine.time_scale = 1

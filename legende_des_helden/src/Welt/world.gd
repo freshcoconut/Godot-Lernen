@@ -1,3 +1,4 @@
+class_name World
 extends Node2D
 
 @onready var tile_map: TileMap = $TileMap
@@ -17,6 +18,14 @@ func _ready() -> void:
 	camera_2d.limit_right = 832#used.end.x * tile_size.x
 	#Kamera取消过渡动画
 	camera_2d.reset_smoothing()
+	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"ui_cancel"):
+		Spiel.back_to_title()
+	if event.is_action_pressed(&"speichern"):
+		Spiel.spiel_speichern()
+	if event.is_action_pressed(&"laden"):
+		Spiel.spiel_laden()
 	
 func spieler_aktualisieren(pos: Vector2, richtung: Spieler.Richtung) -> void:
 	spieler.global_position = pos

@@ -1,5 +1,7 @@
 extends Node
 
+signal camera_should_shake(amount: float)
+
 const SAVE_PATH := "user://data.sav"
 
 # Name der Szene => {
@@ -9,6 +11,7 @@ var staende_der_welt := {}
 
 @onready var spieler_statistik: Statistik = $Spieler_Statistik
 @onready var color_rect: ColorRect = $ColorRect
+@onready var standard_spieler_statistik := spieler_statistik.to_dict()
 
 func _ready() -> void:
 	color_rect.color.a = 0
@@ -34,7 +37,7 @@ func szene_veraendern(path: String, params: Dictionary) -> void:
 
 	if neuer_name in staende_der_welt:
 		tree.current_scene.from_dict(staende_der_welt[neuer_name])
-	
+		
 	if "entry_point" in params:
 		for node in tree.get_nodes_in_group("entry_points"):
 			if node.name == params.entry_point:
@@ -46,6 +49,7 @@ func szene_veraendern(path: String, params: Dictionary) -> void:
 	tree.paused = false
 	
 	tween = create_tween()
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.tween_property(color_rect, "color:a", 0, 0.2)
 	
 func spiel_speichern() -> void:
@@ -90,10 +94,16 @@ func spiel_laden() -> void:
 			spieler_statistik.from_dict(data.title_spieler_statistik)
 	})
 	
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"speichern"): # 9 is pressed
-		spiel_speichern()
-	if event.is_action_pressed(&"laden"): # 0 is pressed
-		spiel_laden()
-	
+func neu_spiel() -> void:
+	szene_veraendern("res://Welt/Wald.tscn", {
+		init = func ():
+			staende_der_welt = {}
+			spieler_statistik.from_dict(standard_spieler_statistik)
+	})
+
+func back_to_title() -> void:
+	szene_veraendern("res://UI/title_screen.tscn", {})	
+
+func shake_camera(amount: float) -> void:
+	camera_should_shake.emit(amount)
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b6hd0lpa5lll6"]
+[gd_scene load_steps=16 format=3 uid="uid://b6hd0lpa5lll6"]
 
 [ext_resource type="Script" uid="uid://bu2gutcm301bo" path="res://Welt/world.gd" id="1_0takc"]
 [ext_resource type="Texture2D" uid="uid://cpq168tytwjdd" path="res://pic/Tree-Assets.png" id="2_eu5li"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dkhasv7ny3lmq" path="res://Klassen/EntryPoint.gd" id="4_iyjqk"]
 [ext_resource type="PackedScene" uid="uid://lhbboospxw5x" path="res://Spieler/spieler.tscn" id="5_ot3sq"]
 [ext_resource type="Texture2D" uid="uid://h6lyxovr5g5x" path="res://pic/Legacy-Fantasy - High Forest 2.3/Background/Background.png" id="6_tf46x"]
+[ext_resource type="Script" uid="uid://cq2hbk7oehdt7" path="res://Klassen/ShakyCamera.gd" id="6_uyifj"]
 [ext_resource type="Texture2D" uid="uid://c1b8gk70kmvdg" path="res://pic/Legacy-Fantasy - High Forest 2.3/Trees/Background.png" id="7_uyifj"]
 [ext_resource type="PackedScene" uid="uid://8uewut0n06a1" path="res://Feinde/boar.tscn" id="8_h21lk"]
 [ext_resource type="Script" uid="uid://c8h2fedmpnf8k" path="res://Objekte/Gushroom_Giftig.gd" id="10_yo52k"]
@@ -78,6 +79,7 @@ position_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 editor_draw_drag_margin = true
+script = ExtResource("6_uyifj")
 
 [node name="Dekoration" type="Node2D" parent="."]
 metadata/_edit_lock_ = true

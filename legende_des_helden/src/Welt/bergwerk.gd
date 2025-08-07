@@ -18,6 +18,14 @@ func _ready() -> void:
 	#Kamera取消过渡动画
 	camera_2d.reset_smoothing()
 	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"ui_cancel"):
+		Spiel.back_to_title()
+	if event.is_action_pressed(&"speichern"):
+		Spiel.spiel_speichern()
+	if event.is_action_pressed(&"laden"):
+		Spiel.spiel_laden()
+		
 func spieler_aktualisieren(pos: Vector2, richtung: Spieler.Richtung) -> void:
 	spieler.global_position = pos
 	spieler.fall_from_y = pos.y
@@ -41,3 +49,7 @@ func from_dict(dict: Dictionary) -> void:
 		var path := get_path_to(node) as String
 		if !path in dict.lebendige_feinde:
 			node.queue_free()
+
+func _on_boss_boar_5_tot_signal() -> void:
+	await get_tree().create_timer(1).timeout
+	Spiel.szene_veraendern("res://UI/game_end.tscn", {})
