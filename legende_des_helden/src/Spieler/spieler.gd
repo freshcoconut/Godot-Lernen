@@ -70,6 +70,9 @@ var interacting_with: Array[Interactable]
 @onready var should_jump := false
 @onready var interaction_icon: AnimatedSprite2D = $InteractionIcon
 
+func _ready() -> void:
+	stand(default_gravity, 0.01)
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"springen"):
 		jump_request_timer.start()
@@ -344,7 +347,7 @@ func transition_state(von: State, bis: State) -> void:
 		State.RECOVER:
 			animation_player.play(&"recover")
 			#statistik.heutige_gesundheit += 1
-			statistik.heutige_energie +=  4.0
+			statistik.heutige_energie +=  6.0
 	
 	if bis == State.WALL_JUMP:
 		Engine.time_scale = 0.3

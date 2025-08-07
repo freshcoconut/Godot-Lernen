@@ -3,9 +3,18 @@
 [ext_resource type="Script" uid="uid://1443ncqaep2w" path="res://Globale/spiel.gd" id="1_04vo6"]
 [ext_resource type="Script" uid="uid://rv5bokpwa178" path="res://Klassen/Statistik.gd" id="2_wlain"]
 
-[node name="Node" type="Node"]
+[node name="Spiel" type="CanvasLayer"]
+layer = 99
 script = ExtResource("1_04vo6")
 
 [node name="Spieler_Statistik" type="Node" parent="."]
 script = ExtResource("2_wlain")
 metadata/_custom_type_script = "uid://rv5bokpwa178"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

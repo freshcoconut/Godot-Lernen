@@ -61,7 +61,7 @@ script = ExtResource("4_iyjqk")
 metadata/_custom_type_script = "uid://dkhasv7ny3lmq"
 
 [node name="Spieler" parent="." instance=ExtResource("5_ot3sq")]
-position = Vector2(-63, 139)
+position = Vector2(-63, 163)
 
 [node name="Camera2D" type="Camera2D" parent="Spieler"]
 position = Vector2(0, -14)

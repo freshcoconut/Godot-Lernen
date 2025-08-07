@@ -5,7 +5,7 @@ signal gesundheit_geaendert
 signal energie_geaendert
 
 @export var max_Gesundheit: int = 8
-@export var max_Energie: float = 10 # 能量恢复时可能会恢复0.1、0.2个单位的能量
+@export var max_Energie: float = 15 # 能量恢复时可能会恢复0.1、0.2个单位的能量
 @export var energie_regen: float = 0.6 # energie_regen for every second
 
 @onready var heutige_gesundheit: int = max_Gesundheit:

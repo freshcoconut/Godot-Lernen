@@ -20,6 +20,7 @@ func _ready() -> void:
 	
 func spieler_aktualisieren(pos: Vector2, richtung: Spieler.Richtung) -> void:
 	spieler.global_position = pos
+	spieler.fall_from_y = pos.y
 	spieler.richtung = richtung
 	#Kamera取消过渡动画
 	camera_2d.reset_smoothing()
