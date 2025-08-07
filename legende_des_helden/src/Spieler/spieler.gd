@@ -97,9 +97,9 @@ func tick_physics(state: State, delta: float) -> void:
 		grafiken.modulate.a = 1
 		
 	can_attack = statistik.heutige_energie >= ANGRIFF_ENERGIE
-	should_attack = statistik.heutige_energie >= ANGRIFF_ENERGIE && Input.is_action_just_pressed(&"Angriff")
+	should_attack = statistik.heutige_energie >= ANGRIFF_ENERGIE && (state != State.TOT) && Input.is_action_just_pressed(&"Angriff")
 	can_jump = statistik.heutige_energie >= SPRINGEN_ENERGIE && (is_on_floor() || coyote_timer.time_left > 0)
-	should_jump = can_jump && jump_request_timer.time_left > 0
+	should_jump = can_jump && (state != State.TOT) && jump_request_timer.time_left > 0
 		
 	match state:
 		State.IDLE:
@@ -177,6 +177,8 @@ func can_wall_slide() -> bool:
 	return is_on_wall() && hand_pruefer.is_colliding() && fuss_pruefer.is_colliding()
 	
 func should_slide() -> bool:
+	if statistik.heutige_gesundheit <= 0:
+		return false
 	if slide_request_timer.is_stopped(): #just: 只按一下
 		return false
 	if statistik.heutige_energie < SLIDING_ENERGIE:
@@ -191,7 +193,7 @@ func get_next_state(state: State) -> int: #返回类型为int，因为有可能�
 		return State.HURT
 		
 	var can_jump := statistik.heutige_energie >= SPRINGEN_ENERGIE && (is_on_floor() || coyote_timer.time_left > 0)
-	var should_jump := can_jump && jump_request_timer.time_left > 0
+	var should_jump := can_jump && (state != State.TOT) && jump_request_timer.time_left > 0
 	if should_jump:
 		return State.JUMP
 	

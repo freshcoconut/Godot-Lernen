@@ -6,4 +6,4 @@ extends Interactable
 @export var entry_point: String
 
 func interact() -> void:
-	Spiel.szene_veraendern(path, entry_point)
+	Spiel.szene_veraendern(path, {entry_point=entry_point})

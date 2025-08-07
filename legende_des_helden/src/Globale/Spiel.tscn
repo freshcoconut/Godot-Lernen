@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://1443ncqaep2w" path="res://Globale/spiel.gd" id="1_04vo6"]
 [ext_resource type="Script" uid="uid://rv5bokpwa178" path="res://Klassen/Statistik.gd" id="2_wlain"]
 
-[node name="Spiel" type="CanvasLayer"]
+[node name="Spiel" type="CanvasLayer" groups=["feinde"]]
 layer = 99
 script = ExtResource("1_04vo6")
 

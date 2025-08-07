@@ -12,6 +12,11 @@ func _ready() -> void:
 	aktualisieren_Gesundheit(true)
 	statistik.energie_geaendert.connect(aktualisieren_Energie)
 	aktualisieren_Energie()
+	
+	tree_exited.connect(func ():
+		statistik.gesundheit_geaendert.disconnect(aktualisieren_Gesundheit)
+		statistik.energie_geaendert.disconnect(aktualisieren_Energie)
+	)
 
 func aktualisieren_Gesundheit(skip_anim := false) -> void:
 	var prozent := statistik.heutige_gesundheit / float(statistik.max_Gesundheit)
