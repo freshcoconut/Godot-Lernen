@@ -24,6 +24,9 @@ var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as floa
 			await ready
 		grafiken.scale.x = -richtung #当dir=-1，scale=-(-1)，负负得正
 
+func _ready() -> void:
+	add_to_group("feinde")
+
 func move(tempo: float, delta: float) -> void:
 	velocity.x = move_toward(velocity.x, tempo * richtung, beschleunigung * delta)  
 	velocity.y += default_gravity * delta

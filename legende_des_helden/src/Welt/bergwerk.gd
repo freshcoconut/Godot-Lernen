@@ -24,3 +24,20 @@ func spieler_aktualisieren(pos: Vector2, richtung: Spieler.Richtung) -> void:
 	spieler.richtung = richtung
 	#Kamera取消过渡动画
 	camera_2d.reset_smoothing()
+
+func to_dict() -> Dictionary:
+	var betraege_lebendige_feinde := []
+	
+	for node in get_tree().get_nodes_in_group("feinde"):
+		var path := get_path_to(node)
+		betraege_lebendige_feinde.append(path)
+		
+	return {
+		lebendige_feinde=betraege_lebendige_feinde
+	}
+	
+func from_dict(dict: Dictionary) -> void:
+	for node in get_tree().get_nodes_in_group("feinde"):
+		var path := get_path_to(node)
+		if !path in dict.lebendige_feinde:
+			node.queue_free()
