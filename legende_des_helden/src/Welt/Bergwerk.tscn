@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bawdvsg7j6krt"]
+[gd_scene load_steps=14 format=3 uid="uid://bawdvsg7j6krt"]
 
 [ext_resource type="Script" uid="uid://crvnxj62iafqu" path="res://Welt/bergwerk.gd" id="1_80uj7"]
 [ext_resource type="TileSet" uid="uid://c7hyw8222a77y" path="res://pic/tiles/tiles-Wald.tres" id="2_ov2s5"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dkhasv7ny3lmq" path="res://Klassen/EntryPoint.gd" id="4_rjcl6"]
 [ext_resource type="PackedScene" uid="uid://lhbboospxw5x" path="res://Spieler/spieler.tscn" id="5_ln8tw"]
 [ext_resource type="Texture2D" uid="uid://cpq168tytwjdd" path="res://pic/Tree-Assets.png" id="8_bo77x"]
+[ext_resource type="Script" uid="uid://drx5vorncoaba" path="res://Objekte/Heal.gd" id="9_gkfor"]
 [ext_resource type="PackedScene" uid="uid://8uewut0n06a1" path="res://Feinde/boar.tscn" id="9_mlj4d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p4wt0"]
@@ -597,6 +598,9 @@ terrain_set_0/terrain_2/color = Color(0.46875, 0.5, 0.25, 1)
 sources/0 = SubResource("TileSetAtlasSource_p4wt0")
 sources/1 = SubResource("TileSetAtlasSource_focro")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wh76t"]
+size = Vector2(8, 18)
+
 [node name="World" type="Node2D"]
 position = Vector2(-33, 85)
 script = ExtResource("1_80uj7")
@@ -659,3 +663,18 @@ position = Vector2(368, 325)
 
 [node name="Boar3" parent="." instance=ExtResource("9_mlj4d")]
 position = Vector2(144, 325)
+
+[node name="Heal" type="Area2D" parent="."]
+position = Vector2(102, 247)
+collision_mask = 8
+script = ExtResource("9_gkfor")
+metadata/_custom_type_script = "uid://do88vnw0xq4h5"
+
+[node name="Sprite2D" type="Sprite2D" parent="Heal"]
+scale = Vector2(0.5, 0.59375)
+texture = ExtResource("4_i6i50")
+region_enabled = true
+region_rect = Rect2(97, 116, 14, 28)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Heal"]
+shape = SubResource("RectangleShape2D_wh76t")

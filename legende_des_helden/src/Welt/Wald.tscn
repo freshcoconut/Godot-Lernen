@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b6hd0lpa5lll6"]
+[gd_scene load_steps=15 format=3 uid="uid://b6hd0lpa5lll6"]
 
 [ext_resource type="Script" uid="uid://bu2gutcm301bo" path="res://Welt/world.gd" id="1_0takc"]
 [ext_resource type="Texture2D" uid="uid://cpq168tytwjdd" path="res://pic/Tree-Assets.png" id="2_eu5li"]
@@ -9,6 +9,13 @@
 [ext_resource type="Texture2D" uid="uid://h6lyxovr5g5x" path="res://pic/Legacy-Fantasy - High Forest 2.3/Background/Background.png" id="6_tf46x"]
 [ext_resource type="Texture2D" uid="uid://c1b8gk70kmvdg" path="res://pic/Legacy-Fantasy - High Forest 2.3/Trees/Background.png" id="7_uyifj"]
 [ext_resource type="PackedScene" uid="uid://8uewut0n06a1" path="res://Feinde/boar.tscn" id="8_h21lk"]
+[ext_resource type="Script" uid="uid://c8h2fedmpnf8k" path="res://Objekte/Gushroom_Giftig.gd" id="10_yo52k"]
+[ext_resource type="Texture2D" uid="uid://ftgtknkycdr2" path="res://pic/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png" id="11_iyjqk"]
+[ext_resource type="Texture2D" uid="uid://gbbdjey7ja7x" path="res://pic/Legacy-Fantasy - High Forest 2.3/Assets/Hive.png" id="12_ot3sq"]
+[ext_resource type="Script" uid="uid://drx5vorncoaba" path="res://Objekte/Heal.gd" id="12_tf46x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iyjqk"]
+size = Vector2(8, 18)
 
 [node name="World" type="Node2D"]
 position = Vector2(-33, 85)
@@ -61,7 +68,7 @@ script = ExtResource("4_iyjqk")
 metadata/_custom_type_script = "uid://dkhasv7ny3lmq"
 
 [node name="Spieler" parent="." instance=ExtResource("5_ot3sq")]
-position = Vector2(-63, 163)
+position = Vector2(-68, 156)
 
 [node name="Camera2D" type="Camera2D" parent="Spieler"]
 position = Vector2(0, -14)
@@ -318,3 +325,33 @@ position = Vector2(577, -285)
 
 [node name="Boar6" parent="." instance=ExtResource("8_h21lk")]
 position = Vector2(720, -285)
+
+[node name="Mushroom_poison" type="Area2D" parent="."]
+position = Vector2(316, -342)
+collision_mask = 8
+script = ExtResource("10_yo52k")
+metadata/_custom_type_script = "uid://do88vnw0xq4h5"
+
+[node name="Sprite2D" type="Sprite2D" parent="Mushroom_poison"]
+scale = Vector2(0.5, 0.59375)
+texture = ExtResource("11_iyjqk")
+region_enabled = true
+region_rect = Rect2(290, 241, 28, 31)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mushroom_poison"]
+shape = SubResource("RectangleShape2D_iyjqk")
+
+[node name="Heal" type="Area2D" parent="."]
+position = Vector2(19, 43)
+collision_mask = 8
+script = ExtResource("12_tf46x")
+metadata/_custom_type_script = "uid://do88vnw0xq4h5"
+
+[node name="Sprite2D" type="Sprite2D" parent="Heal"]
+scale = Vector2(0.5, 0.59375)
+texture = ExtResource("12_ot3sq")
+region_enabled = true
+region_rect = Rect2(97, 116, 14, 28)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Heal"]
+shape = SubResource("RectangleShape2D_iyjqk")
