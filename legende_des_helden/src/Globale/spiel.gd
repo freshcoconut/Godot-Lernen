@@ -1,5 +1,7 @@
 extends Node
 
+var staende_der_welt := {}
+
 @onready var spieler_statistik: Statistik = $Spieler_Statistik
 @onready var color_rect: ColorRect = $ColorRect
 
