@@ -12,4 +12,8 @@ func _physics_process(delta: float) -> void:
 	for i in get_overlapping_areas():
 		if i.is_in_group("Ball"):
 			$sound.play()
-			i.vec.y = 5
+			i.vec.y = 4
+			if i.vec.x > 0:
+				i.vec.x = 4
+			else:
+				i.vec.x = -4

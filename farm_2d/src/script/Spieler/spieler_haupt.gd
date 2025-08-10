@@ -1,0 +1,2 @@
+class_name  Spieler_Haupt
+extends Spieler_Abstrakt

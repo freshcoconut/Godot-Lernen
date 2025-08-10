@@ -13,14 +13,14 @@ func _physics_process(delta: float) -> void:
 	for i in get_overlapping_areas():
 		if i.is_in_group("Ball"):
 			$sound.play()
-			i.vec.x = -8
+			i.vec.x = -2
 			if i.vec.y > 0:
-				i.vec.y = 8
+				i.vec.y = 2
 			else:
-				i.vec.y = -8
+				i.vec.y = -2
 			
-	var y1 = Input.get_action_strength("Spieler2_oben") * 7
-	var y2 = Input.get_action_strength("Spieler2_unten") * 7
+	var y1 = Input.get_action_strength("Spieler2_oben") * 10
+	var y2 = Input.get_action_strength("Spieler2_unten") * 10
 	var y3 = position.y - y1 + y2
 	if y3 > 50 && y3 < 600:
 		position.y = position.y - y1 + y2

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://moltnxeggyq6"]
+
+[ext_resource type="Script" uid="uid://bbi8w1oprae0t" path="res://script/Klasse/feinde_abstrakt.gd" id="1_xpw0f"]
+
+[node name="Feinde_Abstrakt" type="Node2D"]
+script = ExtResource("1_xpw0f")

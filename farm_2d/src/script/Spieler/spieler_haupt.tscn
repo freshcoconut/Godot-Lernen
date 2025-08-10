@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bp1c8d12g87w4"]
+
+[ext_resource type="Script" uid="uid://s7vccf40s0pu" path="res://script/Spieler/spieler_haupt.gd" id="1_3yofn"]
+[ext_resource type="Texture2D" uid="uid://74pufyw25qbx" path="res://assets/characters/kenney_toon-characters-1/Zombie/Tilesheet/character_zombie_sheetHD.png" id="2_cedpy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cedpy"]
+size = Vector2(26, 39)
+
+[node name="Spieler_Haupt" type="Node2D"]
+script = ExtResource("1_3yofn")
+metadata/_custom_type_script = "uid://cavuy50ora25"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.192708, 0.192708)
+texture = ExtResource("2_cedpy")
+region_enabled = true
+region_rect = Rect2(0, 0, 192, 260)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4.5)
+shape = SubResource("RectangleShape2D_cedpy")
