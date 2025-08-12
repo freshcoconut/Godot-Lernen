@@ -1,1 +1,2 @@
 1. 参考了B站的教程[BV1684y147h4 p9](https://www.bilibili.com/video/BV1684y147h4/?p=9&share_source=copy_web&vd_source=d036a1d0faf73c3bcc94e24bf0bcf811)
+1. 与教程不同，关于小球位置的刷新，我使用_physics_process（项目设置里面设置物理fps为60帧）而非_process，这样一来可以锁60帧（因为小球的移速是xx像素/帧；如果显示器刷新率过高，小球会走得太快）。
