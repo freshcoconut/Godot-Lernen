@@ -11,10 +11,10 @@ func _ready() -> void:
 	
 	#position: the left top point of rectangle
 	#end: the right bottom point of rectangle
-	camera_2d.limit_top = used.position.y * tile_size.y
-	camera_2d.limit_left = used.position.x * tile_size.x
-	camera_2d.limit_bottom = used.end.y * tile_size.y
-	camera_2d.limit_right = used.end.x * tile_size.x
+	camera_2d.limit_top = 0#used.position.y * tile_size.y
+	camera_2d.limit_left = 0#used.position.x * tile_size.x
+	camera_2d.limit_bottom = 366#used.end.y * tile_size.y
+	camera_2d.limit_right = 652#used.end.x * tile_size.x
 	#Kamera取消过渡动画
 	camera_2d.reset_smoothing()
 
