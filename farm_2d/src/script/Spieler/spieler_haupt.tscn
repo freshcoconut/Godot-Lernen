@@ -1,7 +1,9 @@
-[gd_scene load_steps=40 format=3 uid="uid://bp1c8d12g87w4"]
+[gd_scene load_steps=42 format=3 uid="uid://bp1c8d12g87w4"]
 
 [ext_resource type="Script" uid="uid://s7vccf40s0pu" path="res://script/Spieler/spieler_haupt.gd" id="1_3yofn"]
 [ext_resource type="Texture2D" uid="uid://74pufyw25qbx" path="res://assets/characters/kenney_toon-characters-1/Zombie/Tilesheet/character_zombie_sheetHD.png" id="2_cedpy"]
+[ext_resource type="Script" uid="uid://bxrd30jgpa58v" path="res://script/Spieler/Stand_von_idle.gd" id="3_ac3cf"]
+[ext_resource type="Script" uid="uid://pgyis2vvuvch" path="res://script/Maschine_des_Knotens/Maschine_vom_Stand_des_Knotens.gd" id="3_qpeps"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hc3yw"]
 atlas = ExtResource("2_cedpy")
@@ -342,16 +344,15 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_cedpy"]
 radius = 96.0208
 
-[node name="Spieler_Haupt" type="Node2D"]
+[node name="Spieler_Haupt" type="CharacterBody2D"]
 script = ExtResource("1_3yofn")
-metadata/_custom_type_script = "uid://cavuy50ora25"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -128)
 sprite_frames = SubResource("SpriteFrames_3yofn")
-animation = &"watering"
+animation = &"idle_fort"
 autoplay = "idle_fort"
-frame_progress = 0.564492
+frame_progress = 0.0326663
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -96)
@@ -360,3 +361,12 @@ shape = SubResource("CircleShape2D_cedpy")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -96)
 zoom = Vector2(3, 3)
+
+[node name="Spielers_Maschine_vom_Stand_des_Knotens" type="Node" parent="." node_paths=PackedStringArray("anfaenglicher_stand_des_knotens")]
+script = ExtResource("3_qpeps")
+anfaenglicher_stand_des_knotens = NodePath("Stand_von_idle")
+
+[node name="Stand_von_idle" type="Node" parent="Spielers_Maschine_vom_Stand_des_Knotens" node_paths=PackedStringArray("spieler", "animated_sprite_2d")]
+script = ExtResource("3_ac3cf")
+spieler = NodePath("../..")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
