@@ -384,7 +384,7 @@ position = Vector2(0, -128)
 sprite_frames = SubResource("SpriteFrames_3yofn")
 animation = &"gehen_nach_rechts"
 autoplay = "idle_fort"
-frame_progress = 0.132375
+frame_progress = 0.295231
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -96)

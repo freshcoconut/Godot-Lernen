@@ -1,18 +1,14 @@
 class_name Stand_von_Idle
 extends Stand_des_Knotens
 
-@export var spieler: CharacterBody2D
+@export var spieler: Spieler_Haupt
 @export var animated_sprite_2d: AnimatedSprite2D
-
-var richtung: Vector2
 
 func _on_process(delta: float) -> void:#教程中的“_on_process()”和“_on_physics_process()”是新的函数名称
 	pass
 	
 func _on_physics_process(delta: float) -> void:#教程中的“_on_process()”和“_on_physics_process()”是新的函数名称
-	richtung = Ereignis_der_Eingabe_des_Spiels.eingabe_der_bewegung()
-		
-	match richtung:
+	match spieler.richtung_des_spielers:
 		Vector2.UP:
 			animated_sprite_2d.play(&"idle_hinter")
 		
@@ -32,4 +28,4 @@ func _im_eingang() -> void:
 	pass
 	
 func _im_ausgang() -> void:
-	pass
+	animated_sprite_2d.stop()

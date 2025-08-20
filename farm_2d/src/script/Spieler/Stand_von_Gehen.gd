@@ -1,7 +1,7 @@
 class_name Stand_von_Gehen
 extends Stand_des_Knotens
 
-@export var spieler: CharacterBody2D
+@export var spieler: Spieler_Haupt
 @export var animated_sprite_2d: AnimatedSprite2D
 @export var tempo:int = 60
 
@@ -21,6 +21,9 @@ func _on_physics_process(delta: float) -> void:#教程中的“_on_process()”�
 		Vector2.RIGHT:
 			animated_sprite_2d.play(&"gehen_nach_rechts")
 	
+	if richtung != Vector2.ZERO:
+		spieler.richtung_des_spielers = richtung
+	
 	spieler.velocity = richtung * tempo
 	spieler.move_and_slide()
 
@@ -32,4 +35,4 @@ func _im_eingang() -> void:
 	pass
 	
 func _im_ausgang() -> void:
-	pass
+	animated_sprite_2d.stop()
