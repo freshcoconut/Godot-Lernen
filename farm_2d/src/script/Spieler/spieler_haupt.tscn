@@ -1,9 +1,10 @@
-[gd_scene load_steps=42 format=3 uid="uid://bp1c8d12g87w4"]
+[gd_scene load_steps=43 format=3 uid="uid://bp1c8d12g87w4"]
 
 [ext_resource type="Script" uid="uid://s7vccf40s0pu" path="res://script/Spieler/spieler_haupt.gd" id="1_3yofn"]
 [ext_resource type="Texture2D" uid="uid://74pufyw25qbx" path="res://assets/characters/kenney_toon-characters-1/Zombie/Tilesheet/character_zombie_sheetHD.png" id="2_cedpy"]
 [ext_resource type="Script" uid="uid://bxrd30jgpa58v" path="res://script/Spieler/Stand_von_idle.gd" id="3_ac3cf"]
 [ext_resource type="Script" uid="uid://pgyis2vvuvch" path="res://script/Maschine_des_Knotens/Maschine_vom_Stand_des_Knotens.gd" id="3_qpeps"]
+[ext_resource type="Script" uid="uid://i18305yo3yms" path="res://script/Spieler/Stand_von_Gehen.gd" id="5_2forf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hc3yw"]
 atlas = ExtResource("2_cedpy")
@@ -370,3 +371,7 @@ anfaenglicher_stand_des_knotens = NodePath("Stand_von_idle")
 script = ExtResource("3_ac3cf")
 spieler = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+
+[node name="Stand_von_Gehen" type="Node" parent="Spielers_Maschine_vom_Stand_des_Knotens"]
+script = ExtResource("5_2forf")
+metadata/_custom_type_script = "uid://dwr3pjtc1khhv"

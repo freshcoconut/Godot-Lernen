@@ -10,21 +10,7 @@ func _process(delta: float) -> void:#在现在的Godot版本中，需要把教�
 	pass
 	
 func _physics_process(delta: float) -> void:#在现在的Godot版本中，需要把教程中的“_on_process()”改成“_process()”，把教程中的“_on_physics_process()”改成“_physics_process()”。否则游戏监测不到键盘的输入。
-	if Input.is_action_pressed("gehen_nach_oben"):
-		richtung = Vector2.UP
-		print("press: gehen_nach_oben")
-	elif Input.is_action_pressed("gehen_nach_unten"):
-		richtung = Vector2.DOWN
-		print("press: gehen_nach_unten")
-	elif Input.is_action_pressed("gehen_nach_links"):
-		richtung = Vector2.LEFT
-		print("press: gehen_nach_links")
-	elif Input.is_action_pressed("gehen_nach_rechts"):
-		richtung = Vector2.RIGHT
-		print("press: gehen_nach_rechts")
-	else:
-		richtung = Vector2.ZERO
-		print("press: nichts")
+	richtung = Ereignis_der_Eingabe_des_Spiels.eingabe_der_bewegung()
 		
 	match richtung:
 		Vector2.UP:
