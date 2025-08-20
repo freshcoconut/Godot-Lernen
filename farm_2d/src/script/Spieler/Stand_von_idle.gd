@@ -1,4 +1,4 @@
-class_name Stand_von_idle
+class_name Stand_von_Idle
 extends Stand_des_Knotens
 
 @export var spieler: CharacterBody2D
@@ -6,10 +6,10 @@ extends Stand_des_Knotens
 
 var richtung: Vector2
 
-func _process(delta: float) -> void:#在现在的Godot版本中，需要把教程中的“_on_process()”改成“_process()”，把教程中的“_on_physics_process()”改成“_physics_process()”。否则游戏监测不到键盘的输入。
+func _on_process(delta: float) -> void:#教程中的“_on_process()”和“_on_physics_process()”是新的函数名称
 	pass
 	
-func _physics_process(delta: float) -> void:#在现在的Godot版本中，需要把教程中的“_on_process()”改成“_process()”，把教程中的“_on_physics_process()”改成“_physics_process()”。否则游戏监测不到键盘的输入。
+func _on_physics_process(delta: float) -> void:#教程中的“_on_process()”和“_on_physics_process()”是新的函数名称
 	richtung = Ereignis_der_Eingabe_des_Spiels.eingabe_der_bewegung()
 		
 	match richtung:
@@ -23,8 +23,10 @@ func _physics_process(delta: float) -> void:#在现在的Godot版本中，需要
 		Vector2.RIGHT:
 			animated_sprite_2d.play(&"idle_rechts")
 
-func _im_naechsten_uebergang() -> void:
-	pass
+func _im_naechsten_uebergang() -> void:	
+	Ereignis_der_Eingabe_des_Spiels.eingabe_der_bewegung()
+	if Ereignis_der_Eingabe_des_Spiels.ist_eingabe_der_bewegung():
+		uebergang_vom_stand_des_knotens.emit("Stand_von_Gehen")
 
 func _im_eingang() -> void:
 	pass
