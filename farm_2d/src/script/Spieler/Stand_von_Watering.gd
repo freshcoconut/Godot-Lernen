@@ -1,0 +1,2 @@
+class_name Stand_von_Watering
+extends Stand_des_Knotens

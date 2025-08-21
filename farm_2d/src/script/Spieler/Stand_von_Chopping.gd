@@ -1,0 +1,2 @@
+class_name Stand_von_Chopping
+extends Stand_des_Knotens

@@ -1,0 +1,2 @@
+class_name Stand_von_Tilling
+extends Stand_des_Knotens
