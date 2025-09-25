@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Legende_des_Helden"
 run/main_scene="uid://bhdgcdcths06g"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
