@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://betskpeungysa"]
+
+[ext_resource type="Script" uid="uid://bpwaq3u0tdkrn" path="res://Skripts/spieler.gd" id="1_a1inp"]
+[ext_resource type="Script" uid="uid://btd2w4n0hvthd" path="res://Skripts/Kamera_Kontroller.gd" id="2_46136"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_sg3yh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sg3yh"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_nscnr"]
+radius = 0.1
+
+[node name="Spieler" type="CharacterBody3D" node_paths=PackedStringArray("camera")]
+script = ExtResource("1_a1inp")
+camera = NodePath("SpringArm3D/Camera3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_sg3yh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_sg3yh")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8145757, 0)
+shape = SubResource("SphereShape3D_nscnr")
+spring_length = 5.0
+script = ExtResource("2_46136")
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
+fov = 60.0
+size = 6.0

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://c0wmj7yrkd5m7"]
+
+[ext_resource type="Script" uid="uid://7ao40sk0w5l1" path="res://Skripts/erfassbar.gd" id="1_52mis"]
+[ext_resource type="PackedScene" uid="uid://mkqg88tk157g" path="res://Assets/Models/collectible_diamond.glb" id="2_snpql"]
+[ext_resource type="PackedScene" uid="uid://dn4v3unlw6u1f" path="res://Assets/Models/collectible_coin.gltf" id="3_14tj0"]
+[ext_resource type="PackedScene" uid="uid://ccdmvouhm1jq6" path="res://Assets/Models/collectible_cherry.glb" id="4_y7syc"]
+
+[node name="Erfassbar" type="Area3D" unique_id=883912704]
+script = ExtResource("1_52mis")
+modell_diamond = ExtResource("2_snpql")
+modell_coin = ExtResource("3_14tj0")
+modell_cherry = ExtResource("4_y7syc")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=2130719354]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 1.5878763, 0)
+light_energy = 2.5
+spot_range = 3.7267506
+spot_angle = 32.246334
+spot_angle_attenuation = 0.70710856
