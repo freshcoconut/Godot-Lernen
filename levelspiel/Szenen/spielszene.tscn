@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://biuck7do3w3k7"]
 
 [ext_resource type="PackedScene" uid="uid://betskpeungysa" path="res://Szenen/spieler.tscn" id="1_nwmem"]
+[ext_resource type="Script" uid="uid://dmdvmpcuq005" path="res://Skripts/spielszene.gd" id="1_ybn1k"]
 [ext_resource type="PackedScene" uid="uid://jde3vustetue" path="res://Assets/Models/Cube_Prototype_Large_A.gltf" id="2_nscnr"]
 [ext_resource type="PackedScene" uid="uid://cifnn1fww0ma3" path="res://Assets/Models/Floor.gltf" id="3_gpghw"]
 [ext_resource type="Script" uid="uid://c7yikaxblg4ye" path="res://Skripts/spielverwalter.gd" id="4_2v15a"]
@@ -103,6 +104,7 @@ material = SubResource("StandardMaterial3D_fckuv")
 size = Vector3(0.1, 0.1, 0.1)
 
 [node name="Spielszene" type="Node3D" unique_id=1728435243]
+script = ExtResource("1_ybn1k")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=429895499]
 environment = SubResource("Environment_nscnr")
