@@ -5,6 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://dn4v3unlw6u1f" path="res://Assets/Models/collectible_coin.gltf" id="3_14tj0"]
 [ext_resource type="PackedScene" uid="uid://ccdmvouhm1jq6" path="res://Assets/Models/collectible_cherry.glb" id="4_y7syc"]
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_14tj0"]
+radius = 0.7961892
+
 [node name="Erfassbar" type="Area3D" unique_id=883912704]
 script = ExtResource("1_52mis")
 modell_diamond = ExtResource("2_snpql")
@@ -17,3 +20,8 @@ light_energy = 2.5
 spot_range = 3.7267506
 spot_angle = 32.246334
 spot_angle_attenuation = 0.70710856
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=908417364]
+shape = SubResource("SphereShape3D_14tj0")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

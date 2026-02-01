@@ -221,28 +221,59 @@ metadata/_edit_lock_ = true
 
 [node name="Erfassbar" parent="AlleErfassbare" unique_id=883912704 instance=ExtResource("7_l7mw6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.990223, 5.2426453, 0)
+typ_erfassbar = null
+modell_scale = null
+tempo_kreisen = null
+tempo_schweben = null
+groesse_schweben = null
 
 [node name="Erfassbar2" parent="AlleErfassbare" unique_id=1520971491 instance=ExtResource("7_l7mw6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3867035, 5.2426453, 0)
 typ_erfassbar = 1
+modell_scale = null
+tempo_kreisen = null
+tempo_schweben = null
+groesse_schweben = null
 
 [node name="Erfassbar3" parent="AlleErfassbare" unique_id=1651605439 instance=ExtResource("7_l7mw6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3867035, 5.2426453, 3.9026103)
 typ_erfassbar = 2
+modell_scale = null
+tempo_kreisen = null
+tempo_schweben = null
+groesse_schweben = null
 
 [node name="Erfassbar4" parent="AlleErfassbare" unique_id=805551672 instance=ExtResource("7_l7mw6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3867035, 5.2426453, 11.987116)
+typ_erfassbar = null
+modell_scale = null
+tempo_kreisen = null
+tempo_schweben = null
+groesse_schweben = null
 
 [node name="Erfassbar5" parent="AlleErfassbare" unique_id=1444063033 instance=ExtResource("7_l7mw6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.422369, 5.2426453, 12.00577)
 typ_erfassbar = 1
+modell_scale = null
+tempo_kreisen = null
+tempo_schweben = null
+groesse_schweben = null
 
 [node name="Erfassbar6" parent="AlleErfassbare" unique_id=2052813629 instance=ExtResource("7_l7mw6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.293, 9.5, 11.977)
 typ_erfassbar = 1
+modell_scale = null
+tempo_kreisen = null
+tempo_schweben = null
+groesse_schweben = null
 
 [node name="Erfassbar7" parent="AlleErfassbare" unique_id=1879379441 instance=ExtResource("7_l7mw6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.293, 9.5, 7.976)
+typ_erfassbar = null
+modell_scale = null
+tempo_kreisen = null
+tempo_schweben = null
+groesse_schweben = null
 
 [connection signal="body_entered" from="Todzone" to="Spielverwalter" method="spieler_wiederbeleben"]
 [connection signal="body_entered" from="JumpPad" to="JumpPad" method="_on_body_entered"]

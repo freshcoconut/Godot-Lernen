@@ -11,6 +11,7 @@ enum ErfassbareType {
 @export var modell_diamond: PackedScene
 @export var modell_coin: PackedScene
 @export var modell_cherry: PackedScene
+@export var modell_scale: Vector3 = Vector3(1.4, 1.4, 1.4)
 
 @export var tempo_kreisen: float = 0.5
 @export var tempo_schweben: float = 0.003
@@ -43,4 +44,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	rotation.y += tempo_kreisen * delta
 	position.y = urspruenglich_y + groesse_schweben * sin(Time.get_ticks_msec() * tempo_schweben)
-	pass
+
+
+func _on_body_entered(body: Node3D) -> void:
+	SpielVerwalter.instanz.sammeln_ding(ErfassbareType.find_key(typ_erfassbar))
+	queue_free()
