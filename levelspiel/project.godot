@@ -19,6 +19,17 @@ run/main_scene="uid://biuck7do3w3k7"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="canvas_items"
+
+[gui]
+
+theme/custom="uid://y1urvgqnwxun"
+theme/custom_font="uid://drmkrb2dv06hi"
+
 [input]
 
 links={

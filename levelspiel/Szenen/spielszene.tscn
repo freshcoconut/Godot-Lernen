@@ -8,6 +8,9 @@
 [ext_resource type="Script" uid="uid://bdaijqg5glw0s" path="res://Skripts/jump_pad.gd" id="5_fckuv"]
 [ext_resource type="PackedScene" uid="uid://du4tbv1hefgoq" path="res://Assets/Models/Primitive_Floor.gltf" id="5_fmvqs"]
 [ext_resource type="PackedScene" uid="uid://c0wmj7yrkd5m7" path="res://Szenen/erfassbar.tscn" id="7_l7mw6"]
+[ext_resource type="Texture2D" uid="uid://bausi7245hhni" path="res://Assets/Textures/diamond_icon.png" id="9_xffvr"]
+[ext_resource type="Texture2D" uid="uid://b50v1313aoymm" path="res://Assets/Textures/coin_icon.png" id="10_yslcu"]
+[ext_resource type="Texture2D" uid="uid://bwq6ns88t5w1m" path="res://Assets/Textures/cherry_icon.png" id="11_wms2o"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sg3yh"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -20,6 +23,7 @@ sky_material = SubResource("ProceduralSkyMaterial_sg3yh")
 background_mode = 2
 sky = SubResource("Sky_nwmem")
 tonemap_mode = 2
+sdfgi_enabled = true
 glow_enabled = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gpghw"]
@@ -103,6 +107,20 @@ albedo_color = Color(0.99215686, 0.9019608, 0.4745098, 1)
 material = SubResource("StandardMaterial3D_fckuv")
 size = Vector3(0.1, 0.1, 0.1)
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_yslcu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yslcu"]
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(1, 0.7332914, 0.6313121, 1)
+metallic = 0.05
+roughness = 0.22
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.09
+distance_fade_mode = 1
+distance_fade_max_distance = 5.0
+
 [node name="Spielszene" type="Node3D" unique_id=1728435243]
 script = ExtResource("1_ybn1k")
 
@@ -111,6 +129,7 @@ environment = SubResource("Environment_nscnr")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=420297518]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+visible = false
 shadow_enabled = true
 
 [node name="Spieler" parent="." unique_id=590632800 instance=ExtResource("1_nwmem")]
@@ -167,6 +186,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 61.259514, 3.6423197, 12)
 [node name="Cube_Prototype_Large_A18" parent="Node3D" unique_id=896897238 instance=ExtResource("2_nscnr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 61.259514, 3.6423197, 8)
 
+[node name="Cube_Prototype_Large_A19" parent="Node3D" unique_id=1917043408 instance=ExtResource("2_nscnr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72.162865, 3.6423197, 8)
+
+[node name="Cube_Prototype_Large_A22" parent="Node3D" unique_id=555457540 instance=ExtResource("2_nscnr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 76.162865, 3.6423197, 8)
+
+[node name="Cube_Prototype_Large_A20" parent="Node3D" unique_id=241774672 instance=ExtResource("2_nscnr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72.162865, 3.6423197, 12)
+
+[node name="Cube_Prototype_Large_A21" parent="Node3D" unique_id=307732998 instance=ExtResource("2_nscnr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 76.162865, 3.6423197, 12)
+
 [node name="Cube_Prototype_Large_A8" parent="Node3D" unique_id=800704996 instance=ExtResource("2_nscnr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.419249, 0, 12)
 
@@ -190,8 +221,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.905897, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Todzone" unique_id=938386444]
 shape = SubResource("WorldBoundaryShape3D_gpghw")
 
-[node name="Spielverwalter" type="Node3D" parent="." unique_id=846702922]
+[node name="Spielverwalter" type="Node3D" parent="." unique_id=846702922 node_paths=PackedStringArray("item_labels")]
 script = ExtResource("4_2v15a")
+item_labels = {
+"CHERRY": NodePath("../UI/PanelContainer/VBoxContainer/Cherry/Label"),
+"COIN": NodePath("../UI/PanelContainer/VBoxContainer/Coin/Label"),
+"DIAMOND": NodePath("../UI/PanelContainer/VBoxContainer/Diamond/Label")
+}
 
 [node name="JumpPad" type="Area3D" parent="." unique_id=1195966771 node_paths=PackedStringArray("particle_system")]
 transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 43.310055, 3.6573853, 10.064177)
@@ -274,6 +310,87 @@ modell_scale = null
 tempo_kreisen = null
 tempo_schweben = null
 groesse_schweben = null
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1814785778]
+
+[node name="PanelContainer" type="PanelContainer" parent="UI" unique_id=1815844160]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -236.0
+offset_bottom = 314.0
+grow_horizontal = 0
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PanelContainer" unique_id=404000765]
+layout_mode = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="Diamond" type="HBoxContainer" parent="UI/PanelContainer/VBoxContainer" unique_id=1769430167]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/PanelContainer/VBoxContainer/Diamond" unique_id=347311740]
+layout_mode = 2
+texture = ExtResource("9_xffvr")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="UI/PanelContainer/VBoxContainer/Diamond" unique_id=918752665]
+custom_minimum_size = Vector2(100, 70)
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Coin" type="HBoxContainer" parent="UI/PanelContainer/VBoxContainer" unique_id=800002234]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/PanelContainer/VBoxContainer/Coin" unique_id=1614699861]
+layout_mode = 2
+texture = ExtResource("10_yslcu")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="UI/PanelContainer/VBoxContainer/Coin" unique_id=2070277637]
+custom_minimum_size = Vector2(100, 70)
+layout_mode = 2
+theme_type_variation = &"CoinLabel"
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Cherry" type="HBoxContainer" parent="UI/PanelContainer/VBoxContainer" unique_id=2006223386]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/PanelContainer/VBoxContainer/Cherry" unique_id=1072275185]
+layout_mode = 2
+texture = ExtResource("11_wms2o")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="UI/PanelContainer/VBoxContainer/Cherry" unique_id=2065803409]
+custom_minimum_size = Vector2(100, 70)
+layout_mode = 2
+theme_type_variation = &"CherryLabel"
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=306350526]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 73.47745, 9.978781, 10)
+mesh = SubResource("CapsuleMesh_yslcu")
+surface_material_override/0 = SubResource("StandardMaterial3D_yslcu")
 
 [connection signal="body_entered" from="Todzone" to="Spielverwalter" method="spieler_wiederbeleben"]
 [connection signal="body_entered" from="JumpPad" to="JumpPad" method="_on_body_entered"]

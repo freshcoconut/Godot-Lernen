@@ -10,6 +10,8 @@ static var instanz: SpielVerwalter = self
 	"CHERRY": 0,
 }
 
+@export var item_labels: Dictionary[String, Label]
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if instanz == null:
@@ -34,4 +36,5 @@ func sammeln_ding(typ_ding: String) -> void:
 	erfasste_dinge[typ_ding] += 1
 	print(typ_ding)
 	print("DIAMOND: ", erfasste_dinge["DIAMOND"], "; ","COIN: ", erfasste_dinge["COIN"], "; ", "CHERRY: ", erfasste_dinge["CHERRY"])
+	item_labels[typ_ding].text = str(erfasste_dinge[typ_ding])
 	

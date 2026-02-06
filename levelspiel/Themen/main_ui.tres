@@ -1,0 +1,29 @@
+[gd_resource type="Theme" format=3 uid="uid://y1urvgqnwxun"]
+
+[ext_resource type="FontFile" uid="uid://drmkrb2dv06hi" path="res://Assets/Schriftart/MSYH.TTC" id="1_qnxp0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnxp0"]
+bg_color = Color(0, 0.8156863, 0.78039217, 0.2509804)
+border_width_left = 10
+border_width_top = 8
+border_width_right = 10
+border_width_bottom = 8
+border_blend = true
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color(0.25565878, 0.25565878, 0.25565878, 0.6)
+shadow_size = 5
+shadow_offset = Vector2(8, 8)
+
+[resource]
+CherryLabel/base_type = &"Label"
+CherryLabel/colors/font_outline_color = Color(1, 0, 0, 1)
+CoinLabel/base_type = &"Label"
+CoinLabel/colors/font_outline_color = Color(0.88043076, 0.5709681, 0, 1)
+Label/colors/font_outline_color = Color(0, 0.54901963, 0.7137255, 1)
+Label/constants/outline_size = 24
+Label/font_sizes/font_size = 72
+Label/fonts/font = ExtResource("1_qnxp0")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_qnxp0")
