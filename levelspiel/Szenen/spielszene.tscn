@@ -465,13 +465,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.905897, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Todzone" unique_id=938386444]
 shape = SubResource("WorldBoundaryShape3D_gpghw")
 
-[node name="Spielverwalter" type="Node3D" parent="." unique_id=846702922 node_paths=PackedStringArray("item_labels")]
+[node name="Spielverwalter" type="Node3D" parent="." unique_id=846702922 node_paths=PackedStringArray("item_labels", "bildschirm_label")]
 script = ExtResource("4_2v15a")
 item_labels = {
 "CHERRY": NodePath("../UI/PanelContainer/VBoxContainer/Cherry/Label"),
 "COIN": NodePath("../UI/PanelContainer/VBoxContainer/Coin/Label"),
 "DIAMOND": NodePath("../UI/PanelContainer/VBoxContainer/Diamond/Label")
 }
+bildschirm_label = NodePath("../UI/WinLabel")
 
 [node name="JumpPad" type="Area3D" parent="." unique_id=1195966771 node_paths=PackedStringArray("particle_system")]
 transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 43.310055, 3.6573853, 10.064177)
@@ -660,7 +661,8 @@ size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 96
 text = "恭喜通关！太强啦！"
 
-[node name="Button" type="Button" parent="UI/WinLabel" unique_id=1412722084]
+[node name="neustarten" type="Button" parent="UI/WinLabel" unique_id=1412722084]
+custom_minimum_size = Vector2(500, 100)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -668,12 +670,29 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -175.5
-offset_top = 336.0
+offset_top = 252.0
 offset_right = 175.5
-offset_bottom = 424.0
+offset_bottom = 340.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Neu Starten"
+
+[node name="zurueckgehen" type="Button" parent="UI/WinLabel" unique_id=2031786259]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.5
+offset_top = 437.0
+offset_right = 175.5
+offset_bottom = 525.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Zurueckgehen
+"
 
 [node name="obstacle" parent="." unique_id=1438359315 instance=ExtResource("12_wms2o")]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 76, 7.5, 10)
@@ -736,9 +755,11 @@ script = ExtResource("16_3en6i")
 [node name="Checkpoint4" parent="CheckPoints" unique_id=2134731689 instance=ExtResource("15_1soc4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 112.18829, 7.6543493, -5.056677)
 script = ExtResource("16_3en6i")
+ist_der_endliche_checkpoint = true
 
 [connection signal="body_entered" from="Todzone" to="Spielverwalter" method="spieler_wiederbeleben"]
 [connection signal="body_entered" from="JumpPad" to="JumpPad" method="_on_body_entered"]
+[connection signal="pressed" from="UI/WinLabel/neustarten" to="Spielverwalter" method="_neu_starten_spiel"]
 [connection signal="body_entered" from="CheckPoints/Checkpoint" to="CheckPoints/Checkpoint" method="_on_body_entered"]
 [connection signal="body_entered" from="CheckPoints/Checkpoint2" to="CheckPoints/Checkpoint2" method="_on_body_entered"]
 [connection signal="body_entered" from="CheckPoints/Checkpoint3" to="CheckPoints/Checkpoint3" method="_on_body_entered"]

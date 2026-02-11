@@ -2,6 +2,18 @@
 
 [ext_resource type="FontFile" uid="uid://drmkrb2dv06hi" path="res://Assets/Schriftart/MSYH.TTC" id="1_qnxp0"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_si6nj"]
+bg_color = Color(0.49932617, 0.86034936, 0.28657925, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_digqw"]
+bg_color = Color(0.7420643, 0.5948459, 0.9773869, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4vk35"]
+bg_color = Color(7.70092e-07, 0.70244926, 0.5582686, 1)
+shadow_color = Color(0.23289356, 0.23289359, 0.23289359, 0.6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p41pd"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnxp0"]
 bg_color = Color(0, 0.8156863, 0.78039217, 0.2509804)
 border_width_left = 10
@@ -19,6 +31,10 @@ shadow_offset = Vector2(8, 8)
 
 [resource]
 Button/font_sizes/font_size = 60
+Button/styles/focus = SubResource("StyleBoxFlat_si6nj")
+Button/styles/hover = SubResource("StyleBoxFlat_digqw")
+Button/styles/normal = SubResource("StyleBoxFlat_4vk35")
+Button/styles/pressed = SubResource("StyleBoxFlat_p41pd")
 CherryLabel/base_type = &"Label"
 CherryLabel/colors/font_outline_color = Color(1, 0, 0, 1)
 CoinLabel/base_type = &"Label"

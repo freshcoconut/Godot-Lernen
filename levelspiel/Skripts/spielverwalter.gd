@@ -14,6 +14,10 @@ var activated_checkpoints: Array[Checkpoint]
 
 @export var item_labels: Dictionary[String, Label]
 
+@export var bildschirm_label: Label
+
+var ist_spiel_beendet: bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if instanz == null:
@@ -22,6 +26,8 @@ func _ready() -> void:
 		queue_free()
 
 	print("DIAMOND: ", erfasste_dinge["DIAMOND"], "; ","COIN: ", erfasste_dinge["COIN"], "; ", "CHERRY: ", erfasste_dinge["CHERRY"])
+	
+	bildschirm_label.visible = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -52,3 +58,10 @@ func sammeln_ding(typ_ding: String) -> void:
 	print("DIAMOND: ", erfasste_dinge["DIAMOND"], "; ","COIN: ", erfasste_dinge["COIN"], "; ", "CHERRY: ", erfasste_dinge["CHERRY"])
 	item_labels[typ_ding].text = str(erfasste_dinge[typ_ding])
 	
+func gewinnen_spiel() -> void:
+	bildschirm_label.visible = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+
+func _neu_starten_spiel() -> void:
+	get_tree().reload_current_scene()

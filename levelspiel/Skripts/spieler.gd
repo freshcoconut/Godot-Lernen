@@ -24,17 +24,17 @@ func _process(delta: float) -> void:
 	var camera_angle = camera.global_rotation.y
 	var input_dir := Input.get_vector("links", "rechts", "oben", "unten")
 	var input_angle = atan2(input_dir.x, input_dir.y)
-	if input_dir != Vector2.ZERO:
+	if input_dir != Vector2.ZERO && ! SpielVerwalter.instanz.ist_spiel_beendet:
 		ziel_angle = camera_angle + input_angle
 		modell.global_rotation.y =  lerp_angle(modell.global_rotation.y, ziel_angle, delta * 12)
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
-	if not is_on_floor():
+	if not is_on_floor() && ! SpielVerwalter.instanz.ist_spiel_beendet:
 		velocity += get_gravity() * delta
 
 	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed("ui_accept") && is_on_floor() && ! SpielVerwalter.instanz.ist_spiel_beendet:
 		velocity.y = tempo_springen
 
 	# Get the input direction and handle the movement/deceleration.
@@ -42,7 +42,7 @@ func _physics_process(delta: float) -> void:
 	var input_dir := Input.get_vector("links", "rechts", "oben", "unten")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	direction = direction.rotated(Vector3.UP, camera.global_rotation.y)
-	if direction:
+	if direction && ! SpielVerwalter.instanz.ist_spiel_beendet:
 		velocity.x = direction.x * tempo
 		velocity.z = direction.z * tempo
 	else:
