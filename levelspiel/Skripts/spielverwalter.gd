@@ -4,6 +4,8 @@ class_name SpielVerwalter
 # 单例模式：只能存在一个SpielVerwalter的实例
 static var instanz: SpielVerwalter = self
 
+var activated_checkpoints: Array[Checkpoint]
+
 @export var erfasste_dinge: Dictionary[String, int] = {
 	"DIAMOND": 0,
 	"COIN": 0,
@@ -29,8 +31,20 @@ func _process(delta: float) -> void:
 
 func spieler_wiederbeleben(body: Node3D) -> void:
 	if body is CharacterBody3D:
-		get_tree().call_deferred("reload_current_scene")
-	pass # Replace with function body.
+		if len(activated_checkpoints) == 0:
+			Spieler.instanz_spieler.position = Spieler.instanz_spieler.position_wiederbeleben + Vector3(0, 4, 0)
+		else:
+			var closest_checkpoint = activated_checkpoints[0]
+			var closest_distance = closest_checkpoint.position.distance_squared_to(Spieler.instanz_spieler.position)
+			
+			for i_checkpoint in activated_checkpoints:
+				var i_distance = i_checkpoint.position.distance_squared_to(Spieler.instanz_spieler.position)
+				if i_distance < closest_distance:
+					closest_checkpoint = i_checkpoint
+					closest_distance = i_distance
+					
+			Spieler.instanz_spieler.position = closest_checkpoint.position + Vector3(0, 4, 0)
+	
 
 func sammeln_ding(typ_ding: String) -> void:
 	erfasste_dinge[typ_ding] += 1

@@ -1,0 +1,97 @@
+[gd_scene format=4 uid="uid://devmmhfb4qhsy"]
+
+[ext_resource type="PackedScene" uid="uid://bsjpbcxjsnqmi" path="res://Assets/Models/checkpoint.glb" id="1_c684s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ggbll"]
+resource_name = "Flag"
+cull_mode = 2
+albedo_color = Color(0.9064027, 0, 0.03836859, 1)
+roughness = 0.5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_52wff"]
+_surfaces = [{
+"aabb": AABB(0.08374104, -0.043384954, -2.4547038, 1.299038, 0.08677006, 1.4999999),
+"format": 34896613377,
+"index_count": 24,
+"index_data": PackedByteArray("AAABAAIAAQADAAIABAAAAAIABAACAAMAAAAFAAEAAAAEAAUABQADAAEABQAEAAMA"),
+"name": "Flag",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 6,
+"vertex_data": PackedByteArray("AAAAAAAAAAD///////8AAAAA/v8AAAAAAAD/////AAAAAAAA//8AAP//AAD//wAA")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_par1o"]
+resource_name = "checkpoint_Cylinder"
+_surfaces = [{
+"aabb": AABB(0.08374104, -0.043384954, -2.4547038, 1.299038, 0.08677006, 1.4999999),
+"attribute_data": PackedByteArray("//+PyVTV/3////9/VNWPyVTVj8mpqv9/VNX/f6mqj8mZuv//ZIX///+fCMupqo/J/3//f6mq/3//f4/J/98Iy2TF//+Z+v//"),
+"format": 34896613399,
+"index_count": 24,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACwAMAA0ACwAOAAwADwAQABEA"),
+"material": SubResource("StandardMaterial3D_ggbll"),
+"name": "Flag",
+"primitive": 3,
+"uv_scale": Vector4(2, 1.74, 0, 0),
+"vertex_count": 18,
+"vertex_data": PackedByteArray("AAAAAAAAFN3///////8U3QAA/v8AABTd//8AAP//FN3//wAA//8AgAAA/////wCA////////AIAAAAAA//8AgP////////+/AAD//////78AAP7/AAD/vwAAAAD///+/AAD+/wAA/78AAP//////vwAAAAAAAP+/AAAAAAAA/z8AAAAA////P///AAD///8//38AAP9/AAD/fwAA/38AAP9/////f////3////9///////9/////f////3//f////3////9/////f///AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_52wff")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c684s"]
+resource_local_to_scene = true
+albedo_color = Color(1, 0.15812317, 0.07277801, 1)
+
+[sub_resource type="Animation" id="Animation_87dj5"]
+resource_name = "aktivieren"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("checkpoint/Flag:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0009999999, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 1.0941372, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("checkpoint/Flag:surface_material_override/0:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0.15812317, 0.07277801, 1), Color(0.109905474, 0.6644749, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3y0ea"]
+_data = {
+&"aktivieren": SubResource("Animation_87dj5")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3en6i"]
+size = Vector3(1.2428894, 3.644226, 1.2076721)
+
+[node name="Checkpoint" type="Area3D" unique_id=1271389021]
+
+[node name="checkpoint" parent="." unique_id=675170494 instance=ExtResource("1_c684s")]
+
+[node name="Flag" parent="checkpoint" index="0" unique_id=995722531]
+mesh = SubResource("ArrayMesh_par1o")
+surface_material_override/0 = SubResource("StandardMaterial3D_c684s")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1639341283]
+libraries/ = SubResource("AnimationLibrary_3y0ea")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=485800703]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03538513, 1.8100843, 0.008590698)
+shape = SubResource("BoxShape3D_3en6i")
+
+[editable path="checkpoint"]

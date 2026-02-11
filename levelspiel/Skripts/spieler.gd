@@ -1,10 +1,32 @@
 extends CharacterBody3D
+class_name Spieler
 
+static var instanz_spieler: Spieler
 
 @export var tempo = 5.0
 @export var tempo_springen = 4.5
 
 @export var camera: Camera3D
+@export var modell: Node3D
+
+var position_wiederbeleben: Vector3
+var ziel_angle: float = PI
+
+func _ready() -> void:
+	if instanz_spieler == null:
+		instanz_spieler = self
+	else:
+		queue_free()
+		
+	position_wiederbeleben = position
+
+func _process(delta: float) -> void:
+	var camera_angle = camera.global_rotation.y
+	var input_dir := Input.get_vector("links", "rechts", "oben", "unten")
+	var input_angle = atan2(input_dir.x, input_dir.y)
+	if input_dir != Vector2.ZERO:
+		ziel_angle = camera_angle + input_angle
+		modell.global_rotation.y =  lerp_angle(modell.global_rotation.y, ziel_angle, delta * 12)
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.

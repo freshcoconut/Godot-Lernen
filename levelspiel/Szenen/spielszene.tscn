@@ -13,6 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://bwq6ns88t5w1m" path="res://Assets/Textures/cherry_icon.png" id="11_wms2o"]
 [ext_resource type="PackedScene" uid="uid://ckqy3sk86cwxh" path="res://Assets/Models/obstacle.glb" id="12_wms2o"]
 [ext_resource type="Texture2D" uid="uid://dpkpbscg5tvoa" path="res://Assets/Textures/rainbow_texture.png" id="13_g4kps"]
+[ext_resource type="PackedScene" uid="uid://brau65k3m261u" path="res://Assets/Models/Primitive_Beam.gltf" id="14_em3kn"]
+[ext_resource type="PackedScene" uid="uid://devmmhfb4qhsy" path="res://Szenen/checkpoint.tscn" id="15_1soc4"]
+[ext_resource type="Script" uid="uid://ktooc85pcywv" path="res://Skripts/checkpoint.gd" id="16_3en6i"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sg3yh"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -237,6 +240,88 @@ _data = {
 &"umkreisen": SubResource("Animation_g4kps")
 }
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_em3kn"]
+size = Vector3(9.395752, 1, 1)
+
+[sub_resource type="Animation" id="Animation_3en6i"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(102.20977, 6.7264724, 15.729128)]
+}
+
+[sub_resource type="Animation" id="Animation_1soc4"]
+resource_name = "bewegen"
+length = 6.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(102.20977, 6.7264724, 15.729128), Vector3(110.33944, 6.7264724, 15.729128)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3en6i"]
+_data = {
+&"RESET": SubResource("Animation_3en6i"),
+&"bewegen": SubResource("Animation_1soc4")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1soc4"]
+size = Vector3(1, 1.0205078, 9.355957)
+
+[sub_resource type="Animation" id="Animation_par1o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(109.02899, 6.674768, 3.7054873)]
+}
+
+[sub_resource type="Animation" id="Animation_iwhyp"]
+resource_name = "bewegen"
+length = 4.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(106.02023, 6.674768, 3.568262), Vector3(106.02023, 6.674768, 10.206905)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_87dj5"]
+_data = {
+&"RESET": SubResource("Animation_par1o"),
+&"bewegen": SubResource("Animation_iwhyp")
+}
+
 [node name="Spielszene" type="Node3D" unique_id=1728435243]
 script = ExtResource("1_ybn1k")
 
@@ -248,7 +333,7 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 visible = false
 shadow_enabled = true
 
-[node name="Spieler" parent="." unique_id=590632800 instance=ExtResource("1_nwmem")]
+[node name="Spieler" parent="." unique_id=541755146 instance=ExtResource("1_nwmem")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.6075773, 0)
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1187589499]
@@ -326,6 +411,24 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80.162865, 3.6423197, 12)
 [node name="Cube_Prototype_Large_A29" parent="Node3D" unique_id=1857862478 instance=ExtResource("2_nscnr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80.162865, 3.6423197, 8)
 
+[node name="Cube_Prototype_Large_A31" parent="Node3D" unique_id=645913955 instance=ExtResource("2_nscnr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111.75967, 3.6423197, -4)
+
+[node name="Cube_Prototype_Large_A32" parent="Node3D" unique_id=1398304664 instance=ExtResource("2_nscnr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.75967, 3.6423197, -4)
+
+[node name="Cube_Prototype_Large_A33" parent="Node3D" unique_id=828739865 instance=ExtResource("2_nscnr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.75967, 3.6423197, -4)
+
+[node name="Cube_Prototype_Large_A34" parent="Node3D" unique_id=493119515 instance=ExtResource("2_nscnr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 86.75967, 3.6423197, 16)
+
+[node name="Cube_Prototype_Large_A35" parent="Node3D" unique_id=1374546633 instance=ExtResource("2_nscnr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90.75967, 3.6423197, 16)
+
+[node name="Cube_Prototype_Large_A36" parent="Node3D" unique_id=2128629450 instance=ExtResource("2_nscnr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.75967, 3.6423197, 16)
+
 [node name="Cube_Prototype_Large_A30" parent="Node3D" unique_id=121057179 instance=ExtResource("2_nscnr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80.162865, 3.6423197, 4)
 
@@ -344,6 +447,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.419249, 0, 12)
 [node name="Bewegungsplattform" type="AnimatableBody3D" parent="." unique_id=1863312122]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.623, 3.469, 12)
 metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
 
 [node name="Floor2" parent="Bewegungsplattform" unique_id=486241427 instance=ExtResource("3_gpghw")]
 
@@ -451,6 +555,22 @@ tempo_kreisen = null
 tempo_schweben = null
 groesse_schweben = null
 
+[node name="Erfassbar8" parent="AlleErfassbare" unique_id=623446232 instance=ExtResource("7_l7mw6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90.99658, 9.5, 15.976)
+typ_erfassbar = null
+modell_scale = null
+tempo_kreisen = null
+tempo_schweben = null
+groesse_schweben = null
+
+[node name="Erfassbar9" parent="AlleErfassbare" unique_id=878327533 instance=ExtResource("7_l7mw6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.99658, 9.5, -3.954422)
+typ_erfassbar = null
+modell_scale = null
+tempo_kreisen = null
+tempo_schweben = null
+groesse_schweben = null
+
 [node name="UI" type="CanvasLayer" parent="." unique_id=1814785778]
 
 [node name="PanelContainer" type="PanelContainer" parent="UI" unique_id=1815844160]
@@ -527,10 +647,39 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
+[node name="WinLabel" type="Label" parent="UI" unique_id=942430504]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -432.0
+offset_top = 275.0
+offset_right = 432.0
+offset_bottom = 403.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 96
+text = "恭喜通关！太强啦！"
+
+[node name="Button" type="Button" parent="UI/WinLabel" unique_id=1412722084]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.5
+offset_top = 336.0
+offset_right = 175.5
+offset_bottom = 424.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Neu Starten"
+
 [node name="obstacle" parent="." unique_id=1438359315 instance=ExtResource("12_wms2o")]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 76, 7.5, 10)
+metadata/_edit_lock_ = true
 
-[node name="Obstacle" parent="obstacle" index="0" unique_id=2126520621]
+[node name="Obstacle" parent="obstacle" index="0" unique_id=1627114314]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("ArrayMesh_3en6i")
 
@@ -539,7 +688,60 @@ callback_mode_process = 0
 libraries/ = SubResource("AnimationLibrary_em3kn")
 autoplay = &"umkreisen"
 
+[node name="Bruecke" type="Node3D" parent="." unique_id=754496164]
+metadata/_edit_lock_ = true
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="Bruecke" unique_id=1500841251]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 102.20977, 6.7264724, 15.729128)
+
+[node name="Bruecke1" parent="Bruecke/AnimatableBody3D" unique_id=1635211994 instance=ExtResource("14_em3kn")]
+transform = Transform3D(2.3373642, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bruecke/AnimatableBody3D" unique_id=1614774961]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.020629883, 0.52246094, 0)
+shape = SubResource("BoxShape3D_em3kn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Bruecke/AnimatableBody3D" unique_id=1451628156]
+libraries/ = SubResource("AnimationLibrary_3en6i")
+autoplay = &"bewegen"
+
+[node name="AnimatableBody" type="AnimatableBody3D" parent="Bruecke" unique_id=1548336920]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 109.02899, 6.674768, 3.7054873)
+
+[node name="Bruecke2" parent="Bruecke/AnimatableBody" unique_id=1710104157 instance=ExtResource("14_em3kn")]
+transform = Transform3D(-1.0216944e-07, 0, 1, 0, 1, 0, -2.3373642, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bruecke/AnimatableBody" unique_id=1191911850]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49365234, -0.0007324219)
+shape = SubResource("BoxShape3D_1soc4")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Bruecke/AnimatableBody" unique_id=187106611]
+libraries/ = SubResource("AnimationLibrary_87dj5")
+autoplay = &"bewegen"
+
+[node name="CheckPoints" type="Node3D" parent="." unique_id=351824615]
+
+[node name="Checkpoint" parent="CheckPoints" unique_id=1271389021 instance=ExtResource("15_1soc4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.309945, 4.012029, 8.100483)
+script = ExtResource("16_3en6i")
+
+[node name="Checkpoint2" parent="CheckPoints" unique_id=1966795663 instance=ExtResource("15_1soc4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.308643, 7.654349, 6.987707)
+script = ExtResource("16_3en6i")
+
+[node name="Checkpoint3" parent="CheckPoints" unique_id=288574793 instance=ExtResource("15_1soc4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.55523, 7.6543493, 14.985645)
+script = ExtResource("16_3en6i")
+
+[node name="Checkpoint4" parent="CheckPoints" unique_id=2134731689 instance=ExtResource("15_1soc4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 112.18829, 7.6543493, -5.056677)
+script = ExtResource("16_3en6i")
+
 [connection signal="body_entered" from="Todzone" to="Spielverwalter" method="spieler_wiederbeleben"]
 [connection signal="body_entered" from="JumpPad" to="JumpPad" method="_on_body_entered"]
+[connection signal="body_entered" from="CheckPoints/Checkpoint" to="CheckPoints/Checkpoint" method="_on_body_entered"]
+[connection signal="body_entered" from="CheckPoints/Checkpoint2" to="CheckPoints/Checkpoint2" method="_on_body_entered"]
+[connection signal="body_entered" from="CheckPoints/Checkpoint3" to="CheckPoints/Checkpoint3" method="_on_body_entered"]
+[connection signal="body_entered" from="CheckPoints/Checkpoint4" to="CheckPoints/Checkpoint4" method="_on_body_entered"]
 
 [editable path="obstacle"]
