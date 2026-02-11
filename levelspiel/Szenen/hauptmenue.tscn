@@ -1,3 +1,170 @@
 [gd_scene format=3 uid="uid://cnp3exkqpwht8"]
 
+[ext_resource type="PackedScene" uid="uid://nung2wfv3lpk" path="res://Assets/OtherModels/Floor_Prototype.gltf" id="1_07fg5"]
+[ext_resource type="Script" uid="uid://desa8kf5o55cw" path="res://Skripts/hauptmenue.gd" id="1_p50pm"]
+[ext_resource type="PackedScene" uid="uid://i0o7tw13gw1q" path="res://Assets/OtherModels/Primitive_Slope_Half_OuterCorner.gltf" id="2_p50pm"]
+[ext_resource type="PackedScene" uid="uid://cpesptqsgxc4c" path="res://Assets/OtherModels/Wall_Decorated.gltf" id="3_koxsg"]
+[ext_resource type="PackedScene" uid="uid://cqu2458ucww3v" path="res://Assets/Character/Player.glb" id="4_rjowm"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_p50pm"]
+
+[sub_resource type="Sky" id="Sky_p50pm"]
+sky_material = SubResource("PhysicalSkyMaterial_p50pm")
+
+[sub_resource type="Environment" id="Environment_p50pm"]
+background_mode = 2
+background_color = Color(0.46940678, 0.6843487, 0.5746013, 1)
+background_energy_multiplier = 2.83
+sky = SubResource("Sky_p50pm")
+ambient_light_source = 3
+ambient_light_color = Color(0.712546, 0.80842113, 1, 1)
+ambient_light_energy = 4.0
+fog_light_energy = 1.47
+
 [node name="Hauptmenue" type="Node3D" unique_id=2034118414]
+script = ExtResource("1_p50pm")
+
+[node name="Floor_Prototype2" parent="." unique_id=1379133034 instance=ExtResource("1_07fg5")]
+
+[node name="Primitive_Slope_Half_OuterCorner2" parent="." unique_id=541490944 instance=ExtResource("2_p50pm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19306517, -2.7817519, 0.14746213)
+
+[node name="Wall_Decorated2" parent="." unique_id=2044894982 instance=ExtResource("3_koxsg")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -1.1084579, 1.2182486, -1.6242821)
+
+[node name="Player" parent="." unique_id=243830743 instance=ExtResource("4_rjowm")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -0.48751247, 1.2182592, -0.6384967)
+
+[node name="Skeleton3D" parent="Player/Rig" parent_id_path=PackedInt32Array(243830743, 506088665) index="0" unique_id=334077033]
+bones/0/rotation = Quaternion(-8.557133e-09, 1.2043154e-07, -2.0610973e-15, 1)
+bones/1/position = Vector3(0.013952638, 0.3462035, -0.1502181)
+bones/1/rotation = Quaternion(0.0261679, -1.0328187e-07, 2.7035925e-09, 0.9996576)
+bones/2/rotation = Quaternion(-0.06059948, -0.13028215, -0.0079780845, 0.9895912)
+bones/3/rotation = Quaternion(3.2596343e-09, 4.0308716e-09, 4.656613e-10, 1)
+bones/4/position = Vector3(0.25792792, 0.10497576, 0.1558543)
+bones/4/rotation = Quaternion(-0.30218437, -0.5027451, -0.7960601, 0.14906482)
+bones/5/rotation = Quaternion(2.0186764e-07, 1.13738196e-07, -0.6529289, 0.7574193)
+bones/7/rotation = Quaternion(-0.33550406, -0.7667418, 0.052495547, 0.54478276)
+bones/8/position = Vector3(2.6911916e-08, 0.09612508, -0.05750006)
+bones/8/rotation = Quaternion(9.245574e-08, -4.549432e-08, -0.7071067, 0.7071068)
+bones/9/position = Vector3(-0.14726354, 0.11624685, 0.122505836)
+bones/9/rotation = Quaternion(-0.21018735, 0.56825954, 0.7773946, 0.16899776)
+bones/10/rotation = Quaternion(2.201805e-07, -5.7006144e-08, 0.41379848, 0.9103685)
+bones/12/rotation = Quaternion(0.11272894, -0.029000714, -0.5241902, 0.8436088)
+bones/13/position = Vector3(-0.111206785, 0.077800415, -0.057500035)
+bones/13/rotation = Quaternion(1.1101631e-07, 4.901171e-08, 0.7633425, 0.6459941)
+bones/14/rotation = Quaternion(0.08612351, 0.106896125, 0.005115237, 0.99052)
+bones/15/position = Vector3(0.17094505, 0.11358726, 1.0969347e-08)
+bones/15/rotation = Quaternion(0.9225849, 0.029058892, 0.029803796, 0.38354194)
+bones/16/rotation = Quaternion(0.26818457, 7.303334e-08, -1.8369914e-07, 0.9633676)
+bones/17/rotation = Quaternion(-0.28349423, -0.033534467, 0.024659624, 0.95807016)
+bones/18/rotation = Quaternion(-1.0215031e-08, 0.9203548, -0.3910845, 1.7919963e-07)
+bones/19/position = Vector3(-0.17094506, 0.11358728, -6.337155e-09)
+bones/19/rotation = Quaternion(0.92243403, -0.020681325, -0.002096838, 0.38559493)
+bones/20/rotation = Quaternion(0.4453396, -6.978807e-08, 3.1083238e-07, 0.8953618)
+bones/21/rotation = Quaternion(-0.45756692, 0.001041308, -0.020727986, 0.88893294)
+bones/22/rotation = Quaternion(4.8837517e-08, 0.9203548, -0.3910845, 4.0230535e-08)
+bones/23/position = Vector3(0.1709449, 0.2923103, 0.5758124)
+bones/23/rotation = Quaternion(0.70710665, -2.253338e-07, -5.0023715e-08, 0.7071069)
+bones/24/position = Vector3(0.17094497, 0.025990248, 0.24578935)
+bones/24/rotation = Quaternion(-0.70710665, -7.2600365e-08, -7.260034e-08, 0.7071069)
+bones/25/position = Vector3(0.030839482, 0.3072231, 4.0445274e-09)
+bones/25/rotation = Quaternion(-8.290598e-08, -2.0803764e-15, 1, -6.713985e-15)
+bones/26/position = Vector3(1.9759998e-08, 0.21343601, -1.29921975e-08)
+bones/26/rotation = Quaternion(-1.4389518e-07, 0.3910844, 0.92035484, 1.7094825e-08)
+bones/27/position = Vector3(-2.7146854e-08, 0.16564994, -4.7327218e-09)
+bones/28/rotation = Quaternion(1, -2.5257769e-15, 1.9470721e-07, -1.1920929e-07)
+bones/30/position = Vector3(-0.1709452, 0.29231027, 0.5758123)
+bones/30/rotation = Quaternion(0.70710665, -3.426997e-08, 1.4104013e-07, 0.7071069)
+bones/31/rotation = Quaternion(-0.7071067, -7.260035e-08, -7.2600336e-08, 0.7071068)
+bones/32/position = Vector3(1.2623846e-08, 0.36283255, -7.9680074e-10)
+bones/32/rotation = Quaternion(-8.290597e-08, -3.856732e-15, 1, -2.356838e-16)
+bones/33/position = Vector3(-1.6253257e-09, 0.21343602, -4.2283403e-09)
+bones/33/rotation = Quaternion(-1.4389515e-07, 0.3910844, 0.92035484, 1.7094836e-08)
+bones/34/position = Vector3(2.6554745e-09, 0.16564998, 1.8938323e-08)
+bones/35/rotation = Quaternion(1, 9.455332e-15, 1.947072e-07, -7.4505806e-08)
+bones/37/position = Vector3(0.7105579, 0.7424997, 0.43808532)
+bones/37/rotation = Quaternion(-0.7071068, -7.0124045e-08, -7.0124074e-08, 0.7071068)
+bones/38/position = Vector3(0.0964188, 0.9421158, 0.3883451)
+bones/38/rotation = Quaternion(0.28630567, -0.2716705, 0.71336395, 0.57908213)
+bones/39/position = Vector3(-0.88222367, 0.9704176, -0.4571474)
+bones/39/rotation = Quaternion(-0.7071068, -7.0124045e-08, -7.0124074e-08, 0.7071068)
+bones/40/position = Vector3(-0.29890597, 0.9435142, 0.32691607)
+bones/40/rotation = Quaternion(-0.37538114, 0.5992404, 0.5992404, 0.37538117)
+
+[node name="handslot_l" parent="Player/Rig/Skeleton3D" index="0" unique_id=585427020]
+transform = Transform3D(0.98175436, -0.16538629, 0.093842015, 0.18171893, 0.67063105, -0.71918875, 0.056010433, 0.72311914, 0.68844867, -0.0641367, 0.9688452, 0.38522896)
+
+[node name="handslot_r" parent="Player/Rig/Skeleton3D" index="1" unique_id=912302207]
+transform = Transform3D(-0.815217, 0.579155, 3.9227592e-07, 1.876364e-07, -3.7711027e-07, 0.9999999, 0.5791551, 0.815217, 1.6291875e-07, -0.3199163, 0.8742155, 0.5338086)
+
+[node name="chest" parent="Player/Rig/Skeleton3D" index="2" unique_id=902155120]
+transform = Transform3D(0.9659258, 0.03158014, -0.25688514, -0.013540882, 0.9973349, 0.07169151, 0.25846455, -0.065770246, 0.9637792, 0.02579477, 0.91190654, -0.16483732)
+
+[node name="AnimationPlayer" parent="Player" index="1" unique_id=319888636]
+autoplay = &"2H_Melee_Attack_Spinning"
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2114945446]
+transform = Transform3D(0.77551746, -0.24817899, 0.5804997, 0, 0.91949254, 0.3931074, -0.6313262, -0.30486163, 0.71308255, -0.16457367, 2.3259745, 1.0129166)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1625089269]
+transform = Transform3D(0.91602683, -0.14797333, 0.37282535, 0, 0.92946786, 0.36890316, -0.401117, -0.3379252, 0.8514175, -0.16457367, 2.3259745, 1.0129166)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=348960432]
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=1321680267]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -565.0
+offset_top = -311.0
+offset_right = -85.0
+offset_bottom = -183.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 96
+text = "寻宝大冒险"
+metadata/_edit_lock_ = true
+
+[node name="starten" type="Button" parent="CanvasLayer/Label" unique_id=1499699686]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = 210.0
+offset_right = 150.0
+offset_bottom = 310.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Starten"
+
+[node name="beenden" type="Button" parent="CanvasLayer/Label" unique_id=1974324821]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = 414.0
+offset_right = 150.0
+offset_bottom = 514.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Beenden
+"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1528124274]
+environment = SubResource("Environment_p50pm")
+
+[connection signal="pressed" from="CanvasLayer/Label/starten" to="." method="_starten_spiel"]
+[connection signal="pressed" from="CanvasLayer/Label/beenden" to="." method="_beenden_spiel"]
+
+[editable path="Player"]

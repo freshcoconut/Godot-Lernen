@@ -30,6 +30,12 @@ sky = SubResource("Sky_nwmem")
 tonemap_mode = 2
 sdfgi_enabled = true
 glow_enabled = true
+fog_enabled = true
+fog_mode = 1
+fog_light_energy = 0.79
+fog_density = 1.0
+fog_depth_curve = 0.59460604
+fog_depth_begin = 8.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gpghw"]
 
@@ -465,7 +471,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.905897, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Todzone" unique_id=938386444]
 shape = SubResource("WorldBoundaryShape3D_gpghw")
 
-[node name="Spielverwalter" type="Node3D" parent="." unique_id=846702922 node_paths=PackedStringArray("item_labels", "bildschirm_label")]
+[node name="Spielverwalter" type="Node3D" parent="." unique_id=846702922 node_paths=PackedStringArray("item_labels", "bildschirm_label", "notiz_label")]
 script = ExtResource("4_2v15a")
 item_labels = {
 "CHERRY": NodePath("../UI/PanelContainer/VBoxContainer/Cherry/Label"),
@@ -473,6 +479,7 @@ item_labels = {
 "DIAMOND": NodePath("../UI/PanelContainer/VBoxContainer/Diamond/Label")
 }
 bildschirm_label = NodePath("../UI/WinLabel")
+notiz_label = NodePath("../UI/Notiz")
 
 [node name="JumpPad" type="Area3D" parent="." unique_id=1195966771 node_paths=PackedStringArray("particle_system")]
 transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 43.310055, 3.6573853, 10.064177)
@@ -578,11 +585,13 @@ groesse_schweben = null
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -236.0
-offset_bottom = 314.0
+offset_left = -269.0
+offset_top = 28.0
+offset_right = -33.0
+offset_bottom = 342.0
 grow_horizontal = 0
-metadata/_edit_lock_ = true
 metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/PanelContainer" unique_id=404000765]
 layout_mode = 2
@@ -660,6 +669,7 @@ grow_horizontal = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 96
 text = "恭喜通关！太强啦！"
+metadata/_edit_lock_ = true
 
 [node name="neustarten" type="Button" parent="UI/WinLabel" unique_id=1412722084]
 custom_minimum_size = Vector2(500, 100)
@@ -693,6 +703,17 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Zurueckgehen
 "
+
+[node name="Notiz" type="Label" parent="UI" unique_id=456129208]
+offset_left = 52.0
+offset_top = 35.0
+offset_right = 572.0
+offset_bottom = 166.0
+theme_override_font_sizes/font_size = 36
+text = "WASD：来移动
+TAB：切换鼠标锁定模式
+ESC：回到主菜单"
+metadata/_edit_lock_ = true
 
 [node name="obstacle" parent="." unique_id=1438359315 instance=ExtResource("12_wms2o")]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 76, 7.5, 10)
@@ -739,6 +760,7 @@ libraries/ = SubResource("AnimationLibrary_87dj5")
 autoplay = &"bewegen"
 
 [node name="CheckPoints" type="Node3D" parent="." unique_id=351824615]
+metadata/_edit_lock_ = true
 
 [node name="Checkpoint" parent="CheckPoints" unique_id=1271389021 instance=ExtResource("15_1soc4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.309945, 4.012029, 8.100483)
@@ -760,6 +782,7 @@ ist_der_endliche_checkpoint = true
 [connection signal="body_entered" from="Todzone" to="Spielverwalter" method="spieler_wiederbeleben"]
 [connection signal="body_entered" from="JumpPad" to="JumpPad" method="_on_body_entered"]
 [connection signal="pressed" from="UI/WinLabel/neustarten" to="Spielverwalter" method="_neu_starten_spiel"]
+[connection signal="pressed" from="UI/WinLabel/zurueckgehen" to="Spielverwalter" method="_gehen_zum_hauptmenue"]
 [connection signal="body_entered" from="CheckPoints/Checkpoint" to="CheckPoints/Checkpoint" method="_on_body_entered"]
 [connection signal="body_entered" from="CheckPoints/Checkpoint2" to="CheckPoints/Checkpoint2" method="_on_body_entered"]
 [connection signal="body_entered" from="CheckPoints/Checkpoint3" to="CheckPoints/Checkpoint3" method="_on_body_entered"]

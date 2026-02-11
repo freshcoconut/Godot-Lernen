@@ -15,6 +15,7 @@ var activated_checkpoints: Array[Checkpoint]
 @export var item_labels: Dictionary[String, Label]
 
 @export var bildschirm_label: Label
+@export var notiz_label: Label
 
 var ist_spiel_beendet: bool = false
 
@@ -28,12 +29,13 @@ func _ready() -> void:
 	print("DIAMOND: ", erfasste_dinge["DIAMOND"], "; ","COIN: ", erfasste_dinge["COIN"], "; ", "CHERRY: ", erfasste_dinge["CHERRY"])
 	
 	bildschirm_label.visible = false
+	notiz_label.visible = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("verlassen_das_spiel"):
-		get_tree().quit()
-
+		get_tree().change_scene_to_file("res://Szenen/hauptmenue.tscn")
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func spieler_wiederbeleben(body: Node3D) -> void:
 	if body is CharacterBody3D:
@@ -60,8 +62,13 @@ func sammeln_ding(typ_ding: String) -> void:
 	
 func gewinnen_spiel() -> void:
 	bildschirm_label.visible = true
+	notiz_label.visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
 func _neu_starten_spiel() -> void:
 	get_tree().reload_current_scene()
+
+
+func _gehen_zum_hauptmenue() -> void:
+	get_tree().change_scene_to_file("res://Szenen/hauptmenue.tscn")
