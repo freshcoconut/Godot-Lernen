@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccgtxcyeb3uco"
-path="res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
+uid="uid://b7n6thd5h54hg"
+path="res://.godot/imported/hurtbox_icon.svg-6cac4386e9b85af84976b45a43d07420.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://icon.svg"
-dest_files=["res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"]
+source_file="res://assets/assets_from_course/icons/hurtbox_icon.svg"
+dest_files=["res://.godot/imported/hurtbox_icon.svg-6cac4386e9b85af84976b45a43d07420.ctex"]
 
 [params]
 
